@@ -14,7 +14,7 @@ public class MainWindowEventListeners implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource().toString().contains("Logout")) {
-			MainWindow.frame.dispose();
+			
 			new LoginScreen().setVisible(true);
 		}
 		//System.out.println(e.getSource());
