@@ -19,8 +19,6 @@ public class LoginScreenEventHandler implements ActionListener {
 		 * LoginScreen.passwordField.setText(t);
 		 */
 		
-		System.out.println(e.getSource());
-		
 		boolean userExists = DBQueryExecute.checkUserName(
 				LoginPanel.textFieldUsername.getText(),
 				LoginPanel.passwordField.getText());

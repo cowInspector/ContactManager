@@ -20,7 +20,7 @@ public class ContactPanel extends JPanel {
 		setPreferredSize(new Dimension(900, 700));
 		
 		JButton btnLogout = new JButton("Logout");
-		btnLogout.setBounds(10, 0, 89, 23);
+		btnLogout.setBounds(296, 0, 89, 23);
 		btnLogout.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				CardLayout cl = (CardLayout) MainWindow.cards.getLayout();
@@ -35,8 +35,11 @@ public class ContactPanel extends JPanel {
 		tabbedPane.setBounds(10, 42, 890, 647);
 		add(tabbedPane);
 		
+		FrequentContactsPanel fcp = new FrequentContactsPanel();
+		tabbedPane.addTab("Frequent Contacts", null, fcp, null);
 		ContactSearchPanel csp = new ContactSearchPanel();
 		tabbedPane.addTab("Contact Search", null, csp, null);
-		tabbedPane.addTab("Events", null);
+		EventPanel ep = new EventPanel();
+		tabbedPane.addTab("Events", null, ep, null);
 	}
 }

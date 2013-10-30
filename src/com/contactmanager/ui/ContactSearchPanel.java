@@ -7,55 +7,65 @@ import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import javax.swing.JTextField;
+import javax.swing.JSeparator;
+import javax.swing.JTable;
+import javax.swing.JButton;
 
 public class ContactSearchPanel extends JPanel {
-	private JTextField textField;
+	public static JTextField textFieldFirstName;
+	public static JTextField textFieldLastName;
+	public static JTextField textFieldPhoneNumber;
+	private JTable table;
 
 	/**
 	 * Create the panel.
 	 */
 	public ContactSearchPanel() {
-		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[]{178, 83, 0};
-		gridBagLayout.rowHeights = new int[]{32, 0, 0, 0};
-		gridBagLayout.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
-		setLayout(gridBagLayout);
+		setLayout(null);
 		
 		JLabel lblSearchContacts = new JLabel("Search contacts");
+		lblSearchContacts.setBounds(0, 0, 173, 27);
 		lblSearchContacts.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 18));
-		GridBagConstraints gbc_lblSearchContacts = new GridBagConstraints();
-		gbc_lblSearchContacts.insets = new Insets(0, 0, 5, 5);
-		gbc_lblSearchContacts.fill = GridBagConstraints.BOTH;
-		gbc_lblSearchContacts.gridx = 0;
-		gbc_lblSearchContacts.gridy = 0;
-		add(lblSearchContacts, gbc_lblSearchContacts);
+		add(lblSearchContacts);
 		
 		JLabel lblFirstName = new JLabel("First Name:");
-		GridBagConstraints gbc_lblFirstName = new GridBagConstraints();
-		gbc_lblFirstName.anchor = GridBagConstraints.EAST;
-		gbc_lblFirstName.insets = new Insets(0, 0, 5, 5);
-		gbc_lblFirstName.gridx = 0;
-		gbc_lblFirstName.gridy = 1;
-		add(lblFirstName, gbc_lblFirstName);
+		lblFirstName.setBounds(10, 35, 55, 14);
+		add(lblFirstName);
 		
-		textField = new JTextField();
-		GridBagConstraints gbc_textField = new GridBagConstraints();
-		gbc_textField.insets = new Insets(0, 0, 5, 0);
-		gbc_textField.anchor = GridBagConstraints.WEST;
-		gbc_textField.gridx = 1;
-		gbc_textField.gridy = 1;
-		add(textField, gbc_textField);
-		textField.setColumns(10);
+		textFieldFirstName = new JTextField();
+		textFieldFirstName.setBounds(75, 32, 149, 20);
+		add(textFieldFirstName);
+		textFieldFirstName.setColumns(10);
 		
-		JLabel lblNewLabel = new JLabel("New label");
-		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
-		gbc_lblNewLabel.anchor = GridBagConstraints.WEST;
-		gbc_lblNewLabel.insets = new Insets(0, 0, 0, 5);
-		gbc_lblNewLabel.gridx = 2;
-		gbc_lblNewLabel.gridy = 1;
-		add(lblNewLabel, gbc_lblNewLabel);
+		JLabel lblLastName = new JLabel("Last Name:");
+		lblLastName.setBounds(253, 35, 78, 14);
+		add(lblLastName);
+		
+		textFieldLastName = new JTextField();
+		textFieldLastName.setBounds(316, 32, 149, 20);
+		add(textFieldLastName);
+		textFieldLastName.setColumns(10);
+		
+		JLabel lblPhoneNo = new JLabel("Phone No.:");
+		lblPhoneNo.setBounds(10, 75, 55, 14);
+		add(lblPhoneNo);
+		
+		textFieldPhoneNumber = new JTextField();
+		textFieldPhoneNumber.setBounds(75, 72, 149, 20);
+		add(textFieldPhoneNumber);
+		textFieldPhoneNumber.setColumns(10);
+		
+		JSeparator separator = new JSeparator();
+		separator.setBounds(10, 100, 850, 24);
+		add(separator);
+		
+		table = new JTable();
+		table.setBounds(10, 564, 321, -428);
+		add(table);
+		
+		JButton btnSearch = new JButton("Search");
+		btnSearch.setBounds(253, 71, 89, 23);
+		add(btnSearch);
 
 	}
-
 }
