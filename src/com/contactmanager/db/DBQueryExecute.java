@@ -136,4 +136,11 @@ public class DBQueryExecute {
 		};
 
 	}
+
+	public static void addNewContact(Vector<String> contactVector,
+			Vector<Vector<String>> phoneVector,
+			Vector<Vector<String>> addrVector,
+			Vector<Vector<String>> emailVector) {
+
+	}
 }

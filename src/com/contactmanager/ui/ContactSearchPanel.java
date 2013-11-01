@@ -1,5 +1,6 @@
 package com.contactmanager.ui;
 
+import java.awt.CardLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -92,6 +93,16 @@ public class ContactSearchPanel extends JPanel {
 		});
 		btnClear.setBounds(352, 71, 89, 23);
 		add(btnClear);
+		
+		JButton btnAddContact = new JButton("Add Contact");
+		btnAddContact.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				CardLayout cl = (CardLayout) MainWindow.cards.getLayout();
+				cl.show(MainWindow.cards, "AddContact");
+			}
+		});
+		btnAddContact.setBounds(451, 71, 106, 23);
+		add(btnAddContact);
 		final TitledBorder title;
 		title = BorderFactory.createTitledBorder("Phone Details");
 		
@@ -103,10 +114,10 @@ public class ContactSearchPanel extends JPanel {
 					final int row = target.getSelectedRow();
 					
 					try {
-						System.out.println(DBQueryExecute.getPhoneDetails((table.getModel()
+						/*System.out.println(DBQueryExecute.getPhoneDetails((table.getModel()
 								.getValueAt(table.convertRowIndexToModel(row),
-										0)).toString()));
-					} catch (SQLException e1) {
+										0)).toString()));*/
+					} catch (Exception e1) {
 						e1.printStackTrace();
 					}
 				}

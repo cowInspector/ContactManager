@@ -12,22 +12,22 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
-import javax.swing.border.CompoundBorder;
-import java.awt.ComponentOrientation;
 
 public class MainWindow {
     public static JPanel cards; //a panel that uses CardLayout
     
     public void addComponentToPane(Container pane) {
-        ContactPanel contactPanel = new ContactPanel();
         
         //Create the panel that contains the "cards".
         cards = new JPanel(new CardLayout());
         LoginPanel loginPanel = new LoginPanel();
         loginPanel.setBorder(null);
         cards.add(loginPanel,"Login");
-        loginPanel.setBounds(0, 0, 15, 100);
+        loginPanel.setBounds(100, 0, 15, 100);
+        ContactPanel contactPanel = new ContactPanel();
         cards.add(contactPanel,"Contact");
+        AddContactPanel addContactPanel = new AddContactPanel();
+        cards.add(addContactPanel,"AddContact");
         pane.add(cards, BorderLayout.CENTER);
     }
     
@@ -46,7 +46,7 @@ public class MainWindow {
         demo.addComponentToPane(frame.getContentPane());
         
         //Display the window.
-        frame.setSize(696, 750);;
+        frame.setSize(792, 750);;
         frame.setVisible(true);
     }
     
