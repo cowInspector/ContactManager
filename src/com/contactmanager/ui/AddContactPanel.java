@@ -39,6 +39,7 @@ public class AddContactPanel extends JPanel {
 	public static JComboBox comboBoxPhType;
 	public static JComboBox comboBoxAddrType;
 	public static JComboBox comboBoxEmailType;
+	public static JComboBox comboBoxRelationship;
 	public static JFormattedTextField formattedTextFieldDateMet;
 
 	/**
@@ -53,7 +54,7 @@ public class AddContactPanel extends JPanel {
 		add(lblAddContacts);
 		
 		JPanel panelContact = new JPanel();
-		panelContact.setBounds(10, 49, 234, 316);
+		panelContact.setBounds(10, 49, 234, 353);
 		add(panelContact);
 		panelContact.setLayout(null);
 		
@@ -86,7 +87,7 @@ public class AddContactPanel extends JPanel {
 		panelContact.add(lblNickname);
 		
 		JLabel lblFirstMeOn = new JLabel("First Met On");
-		lblFirstMeOn.setBounds(10, 279, 66, 14);
+		lblFirstMeOn.setBounds(10, 328, 66, 14);
 		panelContact.add(lblFirstMeOn);
 		
 		textFieldFirstName = new JTextField();
@@ -110,7 +111,7 @@ public class AddContactPanel extends JPanel {
 		textFieldNickame.setColumns(10);
 		
 		formattedTextFieldDateMet = new JFormattedTextField();
-		formattedTextFieldDateMet.setBounds(104, 276, 115, 20);
+		formattedTextFieldDateMet.setBounds(104, 325, 115, 20);
 		panelContact.add(formattedTextFieldDateMet);
 		
 		textFieldPrefix = new JTextField();
@@ -123,8 +124,17 @@ public class AddContactPanel extends JPanel {
 		panelContact.add(textFieldSuffix);
 		textFieldSuffix.setColumns(10);
 		
+		JLabel lblRelationship = new JLabel("Relationship");
+		lblRelationship.setBounds(10, 282, 66, 14);
+		panelContact.add(lblRelationship);
+		
+		comboBoxRelationship = new JComboBox();
+		comboBoxRelationship.setModel(new DefaultComboBoxModel(new String[] {"SPOUSE", "SIBLING", "FATHER", "MOTHER", "PROFESSIONAL"}));
+		comboBoxRelationship.setBounds(104, 279, 115, 20);
+		panelContact.add(comboBoxRelationship);
+		
 		JPanel panelPhoneDetails = new JPanel();
-		panelPhoneDetails.setBounds(10, 376, 234, 172);
+		panelPhoneDetails.setBounds(10, 413, 234, 172);
 		add(panelPhoneDetails);
 		
 		TitledBorder phoneDetailsTitle;
