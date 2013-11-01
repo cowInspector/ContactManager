@@ -12,13 +12,7 @@ public class LoginScreenEventHandler implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		/*
-		 * String t = LoginScreen.textFieldUsername.getText();
-		 * LoginScreen.textFieldUsername
-		 * .setText(LoginScreen.passwordField.getText());
-		 * LoginScreen.passwordField.setText(t);
-		 */
-		
+
 		boolean userExists = DBQueryExecute.checkUserName(
 				LoginPanel.textFieldUsername.getText(),
 				LoginPanel.passwordField.getText());
@@ -29,12 +23,10 @@ public class LoginScreenEventHandler implements ActionListener {
 			LoginPanel.passwordField.setText("");
 			CardLayout cl = (CardLayout) MainWindow.cards.getLayout();
 			cl.show(MainWindow.cards, "Contact");
-			//MainWindow.cards.
-			/*MainWindow mw = new MainWindow();
-			mw.setTitle((LoginScreen.textFieldUsername.getText()).toUpperCase() + "'s Contacts");
-			mw.setVisible(true);*/
+			LoginPanel.lblErrormsglabel.setVisible(false);
 		} else {
-			LoginPanel.textFieldUsername.setText("Invalid username or password");
+			LoginPanel.lblErrormsglabel.setText("Invalid username or password");
+			LoginPanel.lblErrormsglabel.setVisible(true);
 			LoginPanel.passwordField.setText("");
 		}
 

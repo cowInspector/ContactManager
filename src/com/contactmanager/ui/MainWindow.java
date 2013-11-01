@@ -1,7 +1,7 @@
 package com.contactmanager.ui;
 
 /*
- * CardLayoutDemo.java
+ * MainWindow.java
  *
  */
 import java.awt.BorderLayout;
@@ -10,32 +10,24 @@ import java.awt.Container;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.border.CompoundBorder;
+import java.awt.ComponentOrientation;
 
 public class MainWindow {
     public static JPanel cards; //a panel that uses CardLayout
-    final static String BUTTONPANEL = "Card with JButtons";
-    final static String TEXTPANEL = "Card with JTextField";
     
     public void addComponentToPane(Container pane) {
-        //Put the JComboBox in a JPanel to get a nicer look.
-        LoginPanel loginPanel = new LoginPanel();
         ContactPanel contactPanel = new ContactPanel();
-        
-        //Create the "cards".
-        /*JPanel card1 = new JPanel();
-        card1.add(loginPanel);*/
-        
-        JPanel card2 = new JPanel();
-        card2.add(new JTextField("TextField", 20));
         
         //Create the panel that contains the "cards".
         cards = new JPanel(new CardLayout());
+        LoginPanel loginPanel = new LoginPanel();
+        loginPanel.setBorder(null);
         cards.add(loginPanel,"Login");
+        loginPanel.setBounds(0, 0, 15, 100);
         cards.add(contactPanel,"Contact");
-        
         pane.add(cards, BorderLayout.CENTER);
     }
     
@@ -46,7 +38,7 @@ public class MainWindow {
      */
     private static void createAndShowGUI() {
         //Create and set up the window.
-        JFrame frame = new JFrame("CardLayoutDemo");
+        JFrame frame = new JFrame("Contact Manager");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
         //Create and set up the content pane.
@@ -54,7 +46,7 @@ public class MainWindow {
         demo.addComponentToPane(frame.getContentPane());
         
         //Display the window.
-        frame.setSize(900, 750);;
+        frame.setSize(696, 750);;
         frame.setVisible(true);
     }
     

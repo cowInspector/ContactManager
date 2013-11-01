@@ -35,8 +35,8 @@ public class ContactPanel extends JPanel {
 		tabbedPane.setBounds(10, 42, 890, 647);
 		add(tabbedPane);
 		
-		FrequentContactsPanel fcp = new FrequentContactsPanel();
-		tabbedPane.addTab("Frequent Contacts", null, fcp, null);
+		/*FrequentContactsPanel fcp = new FrequentContactsPanel();
+		tabbedPane.addTab("Frequent Contacts", null, fcp, null);*/
 		ContactSearchPanel csp = new ContactSearchPanel();
 		tabbedPane.addTab("Contact Search", null, csp, null);
 		EventPanel ep = new EventPanel();
