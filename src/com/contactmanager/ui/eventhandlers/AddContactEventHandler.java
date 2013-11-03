@@ -24,7 +24,6 @@ public class AddContactEventHandler implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		System.out.println(e.getSource());
 		if (e.getSource().toString().contains("Phone Number")) {
 			buildPhoneNumberVector();
 		}
@@ -109,6 +108,9 @@ public class AddContactEventHandler implements ActionListener {
 		emailRowData.add(AddContactPanel.comboBoxEmailType.getSelectedItem()
 				.toString());
 		emailDetailsData.add(emailRowData);
+		
+		AddContactPanel.textFieldEmailID.setText("");
+		AddContactPanel.comboBoxEmailType.setSelectedIndex(0);
 	}
 
 	private void buildAddressDetailVector() {
@@ -123,6 +125,15 @@ public class AddContactEventHandler implements ActionListener {
 		addrRowData.add(AddContactPanel.comboBoxAddrType.getSelectedItem()
 				.toString());
 		addressDetailsData.add(addrRowData);
+		
+		AddContactPanel.textFieldAddrLine1.setText("");
+		AddContactPanel.textFieldAddrLine2.setText("");
+		AddContactPanel.textFieldAddrLine3.setText("");
+		AddContactPanel.textFieldCity.setText("");
+		AddContactPanel.textFieldState.setText("");
+		AddContactPanel.textFieldPostalCode.setText("");
+		AddContactPanel.textFieldCountry.setText("");
+		AddContactPanel.comboBoxAddrType.setSelectedIndex(0);
 	}
 
 	private void buildPhoneNumberVector() {
@@ -132,5 +143,9 @@ public class AddContactEventHandler implements ActionListener {
 		phoneDetailsData.add(AddContactPanel.comboBoxPhType.getSelectedItem()
 				.toString());
 		phoneNumberData.add(phoneDetailsData);
+		
+		AddContactPanel.textFieldPhNo.setText("");
+		AddContactPanel.textFieldExtension.setText("");
+		AddContactPanel.comboBoxPhType.setSelectedIndex(0);
 	}
 }
