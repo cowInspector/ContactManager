@@ -3,6 +3,7 @@ package com.contactmanager.ui;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 
+import java.awt.CardLayout;
 import java.awt.Font;
 
 import javax.swing.JTextField;
@@ -92,6 +93,12 @@ public class EventPanel extends JPanel {
 		add(btnClear);
 		
 		JButton btnAddEvent = new JButton("Add Event");
+		btnAddEvent.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				CardLayout cl = (CardLayout) MainWindow.cards.getLayout();
+				cl.show(MainWindow.cards, "AddEvent");
+			}
+		});
 		btnAddEvent.setBounds(493, 82, 89, 23);
 		add(btnAddEvent);
 		

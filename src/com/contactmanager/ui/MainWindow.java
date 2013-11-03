@@ -32,6 +32,8 @@ public class MainWindow {
         cards.add(addContactPanel,"AddContact");
         //manageContactPanel = new ManageContactPanel();
         //cards.add(manageContactPanel, "ManageContact");
+        AddEventDetails addEventDetails = new AddEventDetails();
+        cards.add(addEventDetails, "AddEvent");
         pane.add(cards, BorderLayout.CENTER);
     }
     

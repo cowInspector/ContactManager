@@ -42,6 +42,29 @@ public class DBQueryExecute {
 		return result;
 	}
 
+	public static boolean getUserName(String userName) {
+		boolean result = false;
+		Connection conn = DBUtilFactory.getConnection();
+
+		try {
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt
+					.executeQuery("SELECT * FROM USERS WHERE username = '"
+							+ userName + "'");
+			if (rs.next()) {
+				System.setProperty("creatorID",
+						((Integer) rs.getInt(1)).toString());
+				result = true;
+			} else
+				result = false;
+			conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return result;
+	}
+
 	public static DefaultTableModel getFrequentContacts() throws SQLException {
 
 		Connection conn = DBUtilFactory.getConnection();
@@ -282,18 +305,33 @@ public class DBQueryExecute {
 		Statement stmt = conn.createStatement();
 		String contactQuery = "Select prefix, firstname, middlename, lastname, "
 				+ "suffix, nickname, relationship, firstmet from contacts where contactid = "
-				+ contactID + " and creatorID = " + System.getProperty("creatorID");
-		
+				+ contactID
+				+ " and creatorID = "
+				+ System.getProperty("creatorID");
+
 		ResultSet rs = stmt.executeQuery(contactQuery);
-		
+
 		while (rs.next()) {
-			for (int count = 1; count <= 8; count ++) {
+			for (int count = 1; count <= 8; count++) {
 				contactData.add(rs.getString(count));
 			}
 		}
-		
+
 		conn.close();
-		
+
 		return contactData;
+	}
+
+	public static int createNewUser(String userName, String password)
+			throws SQLException {
+		Connection conn = DBUtilFactory.getConnection();
+		Statement stmt = conn.createStatement();
+
+		String createUserSQL = "INSERT INTO USERS (UserName, Password) values ('"
+				+ userName + "', '" + password + "')";
+		
+		int result = stmt.executeUpdate(createUserSQL);
+		
+		return result;
 	}
 }
