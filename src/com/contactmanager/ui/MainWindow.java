@@ -16,6 +16,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 
 public class MainWindow {
     public static JPanel cards; //a panel that uses CardLayout
+    //public static ManageContactPanel manageContactPanel;
     
     public void addComponentToPane(Container pane) {
         
@@ -29,6 +30,8 @@ public class MainWindow {
         cards.add(contactPanel,"Contact");
         AddContactPanel addContactPanel = new AddContactPanel();
         cards.add(addContactPanel,"AddContact");
+        //manageContactPanel = new ManageContactPanel();
+        //cards.add(manageContactPanel, "ManageContact");
         pane.add(cards, BorderLayout.CENTER);
     }
     

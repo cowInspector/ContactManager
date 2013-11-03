@@ -159,8 +159,7 @@ public class DBQueryExecute {
 				+ "', '"
 				+ contactVector.get(7)
 				+ "', '1', 1, "
-				+ Integer.parseInt(System.getProperty("creatorID"))
-				+ ")";
+				+ Integer.parseInt(System.getProperty("creatorID")) + ")";
 
 		int result = stmt.executeUpdate(insertContactQuery);
 
@@ -249,20 +248,52 @@ public class DBQueryExecute {
 		for (int count = 0; count < addressDetailsVector.size(); count++) {
 			Vector<String> rowData = addressDetailsVector.get(count);
 			String insertAddressDataQuery = "INSERT INTO ADDRESSDETAILS (CONTACTID, AddressLine1, AddressLine2, AddressLine3, "
-					+ "City, State, PostalCode, Country, AddressType) values (" + contactID + ", '"
-					+ rowData.get(0) + "', '"
-					+ rowData.get(1) + "', '"
-					+ rowData.get(2) + "', '"
-					+ rowData.get(3) + "', '"
-					+ rowData.get(4) + "', '"
-					+ rowData.get(5) + "', '"
-					+ rowData.get(6) + "', '"
+					+ "City, State, PostalCode, Country, AddressType) values ("
+					+ contactID
+					+ ", '"
+					+ rowData.get(0)
+					+ "', '"
+					+ rowData.get(1)
+					+ "', '"
+					+ rowData.get(2)
+					+ "', '"
+					+ rowData.get(3)
+					+ "', '"
+					+ rowData.get(4)
+					+ "', '"
+					+ rowData.get(5)
+					+ "', '"
+					+ rowData.get(6)
+					+ "', '"
 					+ rowData.get(7) + "')";
 			result += stmt.executeUpdate(insertAddressDataQuery);
 		}
 
 		conn.close();
-		
+
 		return result;
+	}
+
+	public static Vector<Object> getContactDetails(String contactID)
+			throws SQLException {
+		Vector<Object> contactData = new Vector<Object>();
+
+		Connection conn = DBUtilFactory.getConnection();
+		Statement stmt = conn.createStatement();
+		String contactQuery = "Select prefix, firstname, middlename, lastname, "
+				+ "suffix, nickname, relationship, firstmet from contacts where contactid = "
+				+ contactID + " and creatorID = " + System.getProperty("creatorID");
+		
+		ResultSet rs = stmt.executeQuery(contactQuery);
+		
+		while (rs.next()) {
+			for (int count = 1; count <= 8; count ++) {
+				contactData.add(rs.getString(count));
+			}
+		}
+		
+		conn.close();
+		
+		return contactData;
 	}
 }
