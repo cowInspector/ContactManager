@@ -2,7 +2,9 @@ package com.contactmanager.ui;
 
 /**
  * 
- * MainWindow.java
+ * MainWindow.java. This is the entry point of the program.
+ * A CardLayout is used here for smooth transition between screens.
+ * @author Yogeshwara Krishnan.
  *
  **/
 import java.awt.BorderLayout;

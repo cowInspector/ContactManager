@@ -1,5 +1,6 @@
 /**
- * 
+ * This class has all the functions which handle database crud operations.
+ * @author Yogeshwara Krishnan
  */
 package com.contactmanager.db;
 
@@ -10,6 +11,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Vector;
 
+import javax.swing.ComboBoxModel;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
@@ -18,12 +21,14 @@ import com.contactmanager.ui.EventPanel;
 import com.contactmanager.ui.ManageContactPanel;
 import com.contactmanager.ui.ManageEventPanel;
 
-/**
- * @author hkrishna
- * 
- */
 public class DBQueryExecute {
 
+	/**
+	 * @param userName
+	 * @param password
+	 * @return true if the username and password entered correspond to the
+	 *         values in DB. false otherwise.
+	 */
 	public static boolean checkUserName(String userName, String password) {
 		boolean result = false;
 		Connection conn = DBUtilFactory.getConnection();
@@ -48,6 +53,10 @@ public class DBQueryExecute {
 		return result;
 	}
 
+	/**
+	 * @param userName
+	 * @return true if the username exists; false otherwise.
+	 */
 	public static boolean getUserName(String userName) {
 		boolean result = false;
 		Connection conn = DBUtilFactory.getConnection();
@@ -71,6 +80,11 @@ public class DBQueryExecute {
 		return result;
 	}
 
+	/**
+	 * @return Table of frequent contacts to the table in FrequentContact
+	 *         screen.
+	 * @throws SQLException
+	 */
 	public static DefaultTableModel getFrequentContacts() throws SQLException {
 
 		Connection conn = DBUtilFactory.getConnection();
@@ -100,6 +114,13 @@ public class DBQueryExecute {
 		};
 	}
 
+	/**
+	 * @param firstName
+	 * @param lastName
+	 * @param phoneNumber
+	 * @return Search results rendered as a table
+	 * @throws SQLException
+	 */
 	public static DefaultTableModel getContactSearchResults(String firstName,
 			String lastName, String phoneNumber) throws SQLException {
 		Connection conn = DBUtilFactory.getConnection();
@@ -137,16 +158,22 @@ public class DBQueryExecute {
 		};
 	}
 
+	/**
+	 * @param contactID
+	 * @return Search results rendered as a TableModel.
+	 * @throws SQLException
+	 */
 	public static DefaultTableModel getPhoneDetails(String contactID)
 			throws SQLException {
 		Connection conn = DBUtilFactory.getConnection();
 		Statement stmt = conn.createStatement();
 		ResultSet rs = stmt
-				.executeQuery("SELECT phonedetailsID, phonenumber, phonetype from phonedetails where contactID = "
+				.executeQuery("SELECT phonedetailsID, phonenumber, extension, phonetype from phonedetails where contactID = "
 						+ contactID);
 		Vector<String> columnNames = new Vector<String>();
 		columnNames.add("Phone Details ID");
 		columnNames.add("Phone No.");
+		columnNames.add("Extension");
 		columnNames.add("Phone Type");
 		Vector<Vector<Object>> data = new Vector<Vector<Object>>();
 		while (rs.next()) {
@@ -154,6 +181,7 @@ public class DBQueryExecute {
 			row.add(rs.getString(1));
 			row.add(rs.getString(2));
 			row.add(rs.getString(3));
+			row.add(rs.getString(4));
 			data.add(row);
 		}
 
@@ -168,6 +196,11 @@ public class DBQueryExecute {
 
 	}
 
+	/**
+	 * @param contactVector
+	 * @return
+	 * @throws SQLException
+	 */
 	public static int addNewContact(Vector<String> contactVector)
 			throws SQLException {
 		Connection conn = DBUtilFactory.getConnection();
@@ -199,6 +232,11 @@ public class DBQueryExecute {
 		return result;
 	}
 
+	/**
+	 * @param phoneDetailsVector
+	 * @return the number of rows affected.
+	 * @throws SQLException
+	 */
 	public static int addPhoneDetails(Vector<Vector<String>> phoneDetailsVector)
 			throws SQLException {
 
@@ -229,6 +267,12 @@ public class DBQueryExecute {
 		return result;
 	}
 
+	/**
+	 * @param emailDetailsVector
+	 * @return inserts the data in the vector argument into emaildetails table
+	 *         and returns the no of rows affected.
+	 * @throws SQLException
+	 */
 	public static int addEmailDetails(Vector<Vector<String>> emailDetailsVector)
 			throws SQLException {
 
@@ -259,6 +303,11 @@ public class DBQueryExecute {
 		return result;
 	}
 
+	/**
+	 * @param addressDetailsVector
+	 * @return no. of rows affected after inserting into addressdetails table.
+	 * @throws SQLException
+	 */
 	public static int addAddressDetails(
 			Vector<Vector<String>> addressDetailsVector) throws SQLException {
 
@@ -305,6 +354,11 @@ public class DBQueryExecute {
 		return result;
 	}
 
+	/**
+	 * @param contactID
+	 * @return contact detail data.
+	 * @throws SQLException
+	 */
 	public static Vector<Object> getContactDetails(String contactID)
 			throws SQLException {
 		Vector<Object> contactData = new Vector<Object>();
@@ -330,6 +384,12 @@ public class DBQueryExecute {
 		return contactData;
 	}
 
+	/**
+	 * @param userName
+	 * @param password
+	 * @return creates a new user and returns no of rows affected.
+	 * @throws SQLException
+	 */
 	public static int createNewUser(String userName, String password)
 			throws SQLException {
 		Connection conn = DBUtilFactory.getConnection();
@@ -343,6 +403,10 @@ public class DBQueryExecute {
 		return result;
 	}
 
+	/**
+	 * @return get contact details
+	 * @throws SQLException
+	 */
 	public static Vector<Object> getContactList() throws SQLException {
 
 		Vector<Object> rowData = new Vector<>();
@@ -363,7 +427,11 @@ public class DBQueryExecute {
 		return rowData;
 	}
 
-	public static int createEvent() throws SQLException {
+	/**
+	 * @return creates a new event and returns no. of rows affected.
+	 * @throws SQLException
+	 */
+	public static int createNewEvent() throws SQLException {
 
 		Connection conn = DBUtilFactory.getConnection();
 		Statement stmt = conn.createStatement();
@@ -398,6 +466,10 @@ public class DBQueryExecute {
 
 	}
 
+	/**
+	 * @return search for an event and result rendered as a table model.
+	 * @throws SQLException
+	 */
 	public static DefaultTableModel searchEvent() throws SQLException {
 		Connection conn = DBUtilFactory.getConnection();
 		Statement stmt = conn.createStatement();
@@ -442,6 +514,11 @@ public class DBQueryExecute {
 		};
 	}
 
+	/**
+	 * @param contactID
+	 * @return updates the contacts table and returns the no. of rows affected.
+	 * @throws SQLException
+	 */
 	public static int updateContactDetails(String contactID)
 			throws SQLException {
 		Connection conn = DBUtilFactory.getConnection();
@@ -471,6 +548,11 @@ public class DBQueryExecute {
 		return result;
 	}
 
+	/**
+	 * @param contactID
+	 * @return gets address details of a particular contact as a table model.
+	 * @throws SQLException
+	 */
 	public static DefaultTableModel getAddressDetails(String contactID)
 			throws SQLException {
 		Connection conn = DBUtilFactory.getConnection();
@@ -509,6 +591,11 @@ public class DBQueryExecute {
 		};
 	}
 
+	/**
+	 * @param contactID
+	 * @return gets email details of a particular contact as a table model.
+	 * @throws SQLException
+	 */
 	public static TableModel getEmailDetails(String contactID)
 			throws SQLException {
 		Connection conn = DBUtilFactory.getConnection();
@@ -540,6 +627,11 @@ public class DBQueryExecute {
 		};
 	}
 
+	/**
+	 * @param eventID
+	 * @return removes a particular event and return no. of rows affected.
+	 * @throws SQLException
+	 */
 	public static int deleteEvent(String eventID) throws SQLException {
 
 		Connection conn = DBUtilFactory.getConnection();
@@ -556,6 +648,11 @@ public class DBQueryExecute {
 
 	}
 
+	/**
+	 * @param eventID
+	 * @return retrieves event details.
+	 * @throws SQLException
+	 */
 	public static Vector<Object> getEventDetails(String eventID)
 			throws SQLException {
 		Connection conn = DBUtilFactory.getConnection();
@@ -577,6 +674,11 @@ public class DBQueryExecute {
 		return rowData;
 	}
 
+	/**
+	 * @param eventID
+	 * @return update the events.
+	 * @throws SQLException
+	 */
 	public static int updateEventDetails(String eventID) throws SQLException {
 		Connection conn = DBUtilFactory.getConnection();
 		Statement stmt = conn.createStatement();
@@ -601,11 +703,137 @@ public class DBQueryExecute {
 				+ ManageEventPanel.comboBoxEventType.getSelectedItem()
 						.toString() + "' where eventID = " + eventID
 				+ " and creatorID = " + System.getProperty("creatorID");
-		
+
 		int result = stmt.executeUpdate(updatedEventSQL);
-		
+
 		conn.close();
-		
+
 		return result;
+	}
+
+	/**
+	 * @param property
+	 * @return deletes a specific contact from the contacts table.
+	 * @throws SQLException
+	 */
+	public static int deleteContact(String property) throws SQLException {
+		Connection conn = DBUtilFactory.getConnection();
+		Statement stmt = conn.createStatement();
+
+		String deleteContactSQL = "delete from contacts where contactID = "
+				+ property + " and creatorID = "
+				+ System.getProperty("creatorID");
+
+		int result = stmt.executeUpdate(deleteContactSQL);
+
+		conn.close();
+
+		return result;
+	}
+
+	public static int addNewAddressDetails(Vector<Object> row)
+			throws SQLException {
+		Connection conn = DBUtilFactory.getConnection();
+		Statement stmt = conn.createStatement();
+
+		String insertNewAddrSQL = "INSERT INTO ADDRESSDETAILS (CONTACTID, AddressLine1, AddressLine2, AddressLine3, City, "
+				+ "State, PostalCode, Country, AddressType, crea) values ("
+				+ System.getProperty("currentContactID")
+				+ ", '"
+				+ row.elementAt(1).toString()
+				+ "', '"
+				+ row.elementAt(2).toString()
+				+ "', '"
+				+ row.elementAt(3).toString()
+				+ "', '"
+				+ row.elementAt(4).toString()
+				+ "', '"
+				+ row.elementAt(5).toString()
+				+ "', '"
+				+ row.elementAt(6).toString()
+				+ "', '"
+				+ row.elementAt(7).toString()
+				+ "', '"
+				+ row.elementAt(8).toString() + "')";
+
+		int result = stmt.executeUpdate(insertNewAddrSQL);
+
+		return result;
+	}
+
+	public static DefaultTableModel getAllContactsForUser(String creatorID)
+			throws SQLException {
+		Connection conn = DBUtilFactory.getConnection();
+		Statement stmt = conn.createStatement();
+
+		Vector<String> columnNames = new Vector<String>();
+		columnNames.add("ContactID");
+		columnNames.add("Names");
+
+		Vector<Vector<Object>> resultData = new Vector<Vector<Object>>();
+
+		String getAllContactsSQL = "SELECT CONTACTID, FIRSTNAME, LASTNAME from CONTACTS where creatorID = "
+				+ creatorID + " and ACTIVEFLAG = '1'";
+
+		ResultSet rs = stmt.executeQuery(getAllContactsSQL);
+
+		while (rs.next()) {
+			Vector<Object> rowData = new Vector<Object>();
+			rowData.add(rs.getString("contactID"));
+			rowData.add(rs.getString("FirstName") + " "
+					+ rs.getString("LastName"));
+			resultData.add(rowData);
+		}
+
+		conn.close();
+
+		return new DefaultTableModel(resultData, columnNames) {
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				return false;
+			}
+		};
+	}
+
+	public static int addIndividualEventParticipant(String participantID)
+			throws SQLException {
+		Connection conn = DBUtilFactory.getConnection();
+		Statement stmt = conn.createStatement();
+		int eventID = 0;
+
+		String getEventIDSQL = "select max(eventid) from events where creatorID = "
+				+ System.getProperty("creatorID");
+
+		ResultSet rs = stmt.executeQuery(getEventIDSQL);
+
+		while (rs.next()) {
+			eventID = rs.getInt(1);
+		}
+
+		String addParticipantSQL = "insert into individualeventparticipants values ("
+				+ eventID + ", " + participantID + ")";
+
+		int result = stmt.executeUpdate(addParticipantSQL);
+
+		return result;
+	}
+
+	public static String getEventParticipant(String eventID) throws SQLException {
+		Connection conn = DBUtilFactory.getConnection();
+		Statement stmt = conn.createStatement();
+		
+		String participant = "";
+		
+		String getParticipantSQL = "select firstname, lastname from contacts where "
+				+ "contactid in (select contactid from individualeventparticipants where eventid = "
+				+ eventID +")";
+		
+		ResultSet rs = stmt.executeQuery(getParticipantSQL);
+		
+		while (rs.next()) {
+			participant = rs.getString("firstname") + " " + rs.getString("lastname");
+		}
+		
+		return participant;
 	}
 }

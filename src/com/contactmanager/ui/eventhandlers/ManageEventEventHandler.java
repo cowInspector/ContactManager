@@ -11,10 +11,11 @@ import java.util.Vector;
 
 import com.contactmanager.db.DBQueryExecute;
 import com.contactmanager.ui.MainWindow;
+import com.contactmanager.ui.ManageContactPanel;
 import com.contactmanager.ui.ManageEventPanel;
 
 /**
- * @author hkrishna
+ * @author Yogeshwara Krishnan
  * 
  */
 public class ManageEventEventHandler implements ActionListener {
@@ -22,6 +23,7 @@ public class ManageEventEventHandler implements ActionListener {
 	public static void getEventDetailsData(String eventID) {
 		try {
 			populateUI(DBQueryExecute.getEventDetails(eventID));
+			ManageEventPanel.textFieldParticipant.setText(DBQueryExecute.getEventParticipant(eventID));
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

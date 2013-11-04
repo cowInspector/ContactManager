@@ -78,9 +78,5 @@ public class FrequentContactsPanel extends JPanel {
 		textFieldPhType.setBounds(337, 21, 86, 20);
 		panelPhoneDetails.add(textFieldPhType);
 		textFieldPhType.setColumns(10);
-
-		// scrollPane.setRowHeaderView(table);
-
-		// scrollPane.add(table);
 	}
 }

@@ -27,6 +27,7 @@ public class ContactSearchPanel extends JPanel {
 	public static JTextField textFieldLastName;
 	public static JTextField textFieldPhoneNumber;
 	public static JTable table;
+	public static JLabel lblStatusMessage;
 
 	/**
 	 * Create the panel.
@@ -104,6 +105,11 @@ public class ContactSearchPanel extends JPanel {
 		});
 		btnAddContact.setBounds(451, 71, 106, 23);
 		add(btnAddContact);
+		
+		lblStatusMessage = new JLabel("Status Message");
+		lblStatusMessage.setVisible(false);
+		lblStatusMessage.setBounds(10, 591, 730, 14);
+		add(lblStatusMessage);
 		final TitledBorder title;
 		title = BorderFactory.createTitledBorder("Phone Details");
 		

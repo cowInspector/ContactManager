@@ -37,6 +37,7 @@ public class ManageContactPanel extends JPanel {
 	public static JTable tableAddrDetails;
 	public static JTable tablePhoneDetails;
 	public static JTable tableEmailDetails;
+	public static JLabel lblStatusMessage;
 
 	/**
 	 * Create the panel.
@@ -149,7 +150,7 @@ public class ManageContactPanel extends JPanel {
 		btnAddPhoneNumber.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				DefaultTableModel model = (DefaultTableModel) tablePhoneDetails.getModel();
-				model.addRow(new Object[]{"","",""});
+				model.addRow(new Object[]{"","","",""});
 			}
 		});
 		btnAddPhoneNumber.setBounds(10, 295, 136, 23);
@@ -183,7 +184,7 @@ public class ManageContactPanel extends JPanel {
 		btnAddAddress.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				DefaultTableModel model = (DefaultTableModel) tableAddrDetails.getModel();
-				model.addRow(new Object[]{"","","","","","","",""});
+				model.addRow(new Object[]{"","","","","","","","",""});
 			}
 		});
 		btnAddAddress.setBounds(10, 302, 122, 23);
@@ -253,5 +254,10 @@ public class ManageContactPanel extends JPanel {
 		});
 		btnBack.setBounds(452, 11, 89, 23);
 		add(btnBack);
+		
+		lblStatusMessage = new JLabel("StatusMessage");
+		lblStatusMessage.setVisible(false);
+		lblStatusMessage.setBounds(551, 15, 385, 14);
+		add(lblStatusMessage);
 	}
 }

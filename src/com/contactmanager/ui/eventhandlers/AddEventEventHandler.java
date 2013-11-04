@@ -8,6 +8,8 @@ import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.Vector;
 
+import javax.swing.ComboBoxModel;
+
 import com.contactmanager.db.DBQueryExecute;
 import com.contactmanager.ui.AddEventDetails;
 
@@ -17,6 +19,18 @@ import com.contactmanager.ui.AddEventDetails;
  */
 public class AddEventEventHandler implements ActionListener {
 
+	public static void populateContact(String creatorID) {
+		try {
+			AddEventDetails.tableContacts.setModel(DBQueryExecute
+					.getAllContactsForUser(creatorID));
+			AddEventDetails.tableContacts
+					.removeColumn(AddEventDetails.tableContacts
+							.getColumnModel().getColumn(0));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -25,11 +39,14 @@ public class AddEventEventHandler implements ActionListener {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent ae) {
-		
+
 		if (ae.getSource().toString().contains("Save")) {
 			try {
-				if (DBQueryExecute.createEvent() > 0) {
-					System.out.println("Success");
+				if (DBQueryExecute.createNewEvent() > 0) {
+					System.out.println("Success adding event");
+					System.out.println(DBQueryExecute
+							.addIndividualEventParticipant(System
+									.getProperty("participantID")));
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();

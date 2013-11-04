@@ -15,6 +15,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+import com.contactmanager.ui.eventhandlers.AddEventEventHandler;
 import com.contactmanager.ui.eventhandlers.EventSearchEventHandler;
 import com.contactmanager.ui.eventhandlers.ManageEventEventHandler;
 
@@ -94,6 +95,7 @@ public class EventPanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				CardLayout cl = (CardLayout) MainWindow.cards.getLayout();
 				cl.show(MainWindow.cards, "AddEvent");
+				AddEventEventHandler.populateContact(System.getProperty("creatorID"));
 			}
 		});
 		btnAddEvent.setBounds(208, 82, 89, 23);

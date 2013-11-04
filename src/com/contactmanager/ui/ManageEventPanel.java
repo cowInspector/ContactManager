@@ -19,6 +19,9 @@ import com.contactmanager.ui.eventhandlers.ManageEventEventHandler;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JScrollPane;
+import java.awt.Component;
+import javax.swing.JTable;
 
 public class ManageEventPanel extends JPanel {
 	public static JTextField textFieldEventName;
@@ -30,6 +33,8 @@ public class ManageEventPanel extends JPanel {
 	public static JFormattedTextField formattedTextFieldStartDate;
 	public static JFormattedTextField formattedTextFieldEndDate;
 	public static JComboBox comboBoxEventType;
+	public static JTextField textFieldParticipant;
+	public static JTable tableContact;
 
 	/**
 	 * Create the panel.
@@ -125,6 +130,16 @@ public class ManageEventPanel extends JPanel {
 		comboBoxEventType.setBounds(322, 101, 109, 20);
 		panel.add(comboBoxEventType);
 		
+		JLabel lblParticipant = new JLabel("Participant");
+		lblParticipant.setBounds(256, 145, 72, 14);
+		panel.add(lblParticipant);
+		
+		textFieldParticipant = new JTextField();
+		textFieldParticipant.setEditable(false);
+		textFieldParticipant.setColumns(10);
+		textFieldParticipant.setBounds(322, 142, 171, 20);
+		panel.add(textFieldParticipant);
+		
 		JLabel labelManageEvent = new JLabel("Manage event");
 		labelManageEvent.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 18));
 		labelManageEvent.setBounds(10, 11, 173, 27);
@@ -132,12 +147,12 @@ public class ManageEventPanel extends JPanel {
 		
 		JButton buttonSave = new JButton("Save");
 		buttonSave.addActionListener(new ManageEventEventHandler());
-		buttonSave.setBounds(10, 259, 89, 23);
+		buttonSave.setBounds(10, 557, 89, 23);
 		add(buttonSave);
 		
 		JButton buttonDelete = new JButton("Delete");
 		buttonDelete.addActionListener(new ManageEventEventHandler());
-		buttonDelete.setBounds(128, 259, 89, 23);
+		buttonDelete.setBounds(120, 557, 89, 23);
 		add(buttonDelete);
 		
 		JButton buttonBack = new JButton("Back");
@@ -147,8 +162,24 @@ public class ManageEventPanel extends JPanel {
 				cl.show(MainWindow.cards, "Contact");
 			}
 		});
-		buttonBack.setBounds(245, 259, 89, 23);
+		buttonBack.setBounds(237, 557, 89, 23);
 		add(buttonBack);
+		
+		JPanel panelContacts = new JPanel();
+		panelContacts.setLayout(null);
+		panelContacts.setBounds(10, 247, 639, 246);
+		add(panelContacts);
+		
+		TitledBorder contactsTitle = BorderFactory
+				.createTitledBorder("Associate Contact");
+		panelContacts.setBorder(contactsTitle);
+		
+		JScrollPane scrollPaneContact = new JScrollPane((Component) null);
+		scrollPaneContact.setBounds(10, 21, 619, 214);
+		panelContacts.add(scrollPaneContact);
+		
+		tableContact = new JTable();
+		scrollPaneContact.setColumnHeaderView(tableContact);
 
 	}
 

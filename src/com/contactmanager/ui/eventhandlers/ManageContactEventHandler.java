@@ -3,12 +3,17 @@
  */
 package com.contactmanager.ui.eventhandlers;
 
+import java.awt.CardLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.Vector;
 
+import javax.swing.table.DefaultTableModel;
+
 import com.contactmanager.db.DBQueryExecute;
+import com.contactmanager.ui.ContactSearchPanel;
+import com.contactmanager.ui.MainWindow;
 import com.contactmanager.ui.ManageContactPanel;
 
 /**
@@ -25,6 +30,7 @@ public class ManageContactEventHandler implements ActionListener {
 			setPhoneDetails(contactID);
 			setAddressDetails(contactID);
 			setEmailDetails(contactID);
+			ManageContactPanel.lblStatusMessage.setVisible(false);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -99,10 +105,43 @@ public class ManageContactEventHandler implements ActionListener {
 				if (DBQueryExecute.updateContactDetails(System
 						.getProperty("currentContactID")) > 0) {
 					System.out.println("Updated");
+					ManageContactPanel.lblStatusMessage.setVisible(true);
+					ManageContactPanel.lblStatusMessage.setText("Contact Updated");
+					renderAddrModel();
 				}
 			} catch (SQLException e1) {
 				e1.printStackTrace();
 			}
+		}
+		
+		if (e.getSource().toString().contains("Delete")) {
+			try {
+				if (DBQueryExecute.deleteContact(System
+							.getProperty("currentContactID")) > 0) {
+					CardLayout cl = (CardLayout) MainWindow.cards.getLayout();
+					cl.show(MainWindow.cards, "Contact");
+					ContactSearchPanel.lblStatusMessage.setVisible(true);
+					ContactSearchPanel.lblStatusMessage.setText("Contact Deleted");
+				}
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+		}
+	}
+
+	public static void renderAddrModel() {
+		DefaultTableModel model = (DefaultTableModel) ManageContactPanel.tableAddrDetails
+				.getModel();
+		Vector<Vector<Object>> data = model.getDataVector();
+		
+		for (int i = 0; i < data.size(); i++) {
+			Vector<Object> row = data.elementAt(i);
+			if (row.elementAt(0).toString().length() == 0)
+				try {
+					DBQueryExecute.addNewAddressDetails(row);
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
 		}
 	}
 
