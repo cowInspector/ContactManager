@@ -11,10 +11,12 @@ import java.sql.Statement;
 import java.util.Vector;
 
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 
 import com.contactmanager.ui.AddEventDetails;
 import com.contactmanager.ui.EventPanel;
 import com.contactmanager.ui.ManageContactPanel;
+import com.contactmanager.ui.ManageEventPanel;
 
 /**
  * @author hkrishna
@@ -140,9 +142,10 @@ public class DBQueryExecute {
 		Connection conn = DBUtilFactory.getConnection();
 		Statement stmt = conn.createStatement();
 		ResultSet rs = stmt
-				.executeQuery("SELECT phonenumber, phonetype from phonedetails where contactID = "
+				.executeQuery("SELECT phonedetailsID, phonenumber, phonetype from phonedetails where contactID = "
 						+ contactID);
 		Vector<String> columnNames = new Vector<String>();
+		columnNames.add("Phone Details ID");
 		columnNames.add("Phone No.");
 		columnNames.add("Phone Type");
 		Vector<Vector<Object>> data = new Vector<Vector<Object>>();
@@ -150,6 +153,7 @@ public class DBQueryExecute {
 			Vector<Object> row = new Vector<Object>();
 			row.add(rs.getString(1));
 			row.add(rs.getString(2));
+			row.add(rs.getString(3));
 			data.add(row);
 		}
 
@@ -158,7 +162,7 @@ public class DBQueryExecute {
 		return new DefaultTableModel(data, columnNames) {
 			@Override
 			public boolean isCellEditable(int row, int column) {
-				return false;
+				return true;
 			}
 		};
 
@@ -398,7 +402,8 @@ public class DBQueryExecute {
 		Connection conn = DBUtilFactory.getConnection();
 		Statement stmt = conn.createStatement();
 
-		String searchEventSQL = "SELECT eventname, eventstartdate, eventstarttime, eventenddate, eventendtime, eventtype from events where creatorid = "
+		String searchEventSQL = "SELECT eventID, eventname, eventstartdate, eventstarttime,"
+				+ " eventenddate, eventendtime, eventtype from events where creatorid = "
 				+ System.getProperty("creatorID")
 				+ " and eventname like '%"
 				+ EventPanel.textFieldEventName.getText()
@@ -411,6 +416,7 @@ public class DBQueryExecute {
 		ResultSet rs = stmt.executeQuery(searchEventSQL);
 
 		Vector<String> columnNames = new Vector<String>();
+		columnNames.add("EventID");
 		columnNames.add("Event Name");
 		columnNames.add("Event Start Date");
 		columnNames.add("Event Start Time");
@@ -422,7 +428,7 @@ public class DBQueryExecute {
 
 		while (rs.next()) {
 			Vector<Object> rowData = new Vector<Object>();
-			for (int count = 1; count <= 6; count++) {
+			for (int count = 1; count <= 7; count++) {
 				rowData.add(rs.getObject(count));
 			}
 			searchData.add(rowData);
@@ -457,9 +463,148 @@ public class DBQueryExecute {
 				+ ManageContactPanel.comboBoxRelationship.getSelectedItem()
 						.toString() + "', FirstMet = '"
 				+ ManageContactPanel.formattedTextFieldFirstMet.getText()
-				+ "' where contactID = " + contactID + " and creatorID = " + System.getProperty("creatorID");
-		
+				+ "' where contactID = " + contactID + " and creatorID = "
+				+ System.getProperty("creatorID");
+
 		int result = stmt.executeUpdate(updateContactSQL);
+
+		return result;
+	}
+
+	public static DefaultTableModel getAddressDetails(String contactID)
+			throws SQLException {
+		Connection conn = DBUtilFactory.getConnection();
+		Statement stmt = conn.createStatement();
+		ResultSet rs = stmt
+				.executeQuery("SELECT addressdetailsid, addressline1, addressline2, addressline3, city"
+						+ ", state, postalcode, country, addresstype from addressdetails where contactID = "
+						+ contactID);
+		Vector<String> columnNames = new Vector<String>();
+		columnNames.add("Address Details ID");
+		columnNames.add("Address Line 1");
+		columnNames.add("Address Line 2");
+		columnNames.add("Address Line 3");
+		columnNames.add("City");
+		columnNames.add("State");
+		columnNames.add("Postal Code");
+		columnNames.add("Country");
+		columnNames.add("Address Type");
+
+		Vector<Vector<Object>> data = new Vector<Vector<Object>>();
+		while (rs.next()) {
+			Vector<Object> row = new Vector<Object>();
+			for (int count = 1; count <= 9; count++) {
+				row.add(rs.getObject(count));
+			}
+			data.add(row);
+		}
+
+		conn.close();
+
+		return new DefaultTableModel(data, columnNames) {
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				return true;
+			}
+		};
+	}
+
+	public static TableModel getEmailDetails(String contactID)
+			throws SQLException {
+		Connection conn = DBUtilFactory.getConnection();
+		Statement stmt = conn.createStatement();
+		ResultSet rs = stmt
+				.executeQuery("SELECT emaildetailsID, emailID, emailtype from emaildetails where contactID = "
+						+ contactID);
+		Vector<String> columnNames = new Vector<String>();
+		columnNames.add("EmailDetailsID");
+		columnNames.add("EmailID");
+		columnNames.add("EmailType");
+
+		Vector<Vector<Object>> data = new Vector<Vector<Object>>();
+		while (rs.next()) {
+			Vector<Object> row = new Vector<Object>();
+			for (int count = 1; count <= 3; count++) {
+				row.add(rs.getObject(count));
+			}
+			data.add(row);
+		}
+
+		conn.close();
+
+		return new DefaultTableModel(data, columnNames) {
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				return true;
+			}
+		};
+	}
+
+	public static int deleteEvent(String eventID) throws SQLException {
+
+		Connection conn = DBUtilFactory.getConnection();
+		Statement stmt = conn.createStatement();
+
+		String deleteEventSQL = "DELETE FROM EVENTS where creatorID = "
+				+ System.getProperty("creatorID") + " and eventID = " + eventID;
+
+		int result = stmt.executeUpdate(deleteEventSQL);
+
+		conn.close();
+
+		return result;
+
+	}
+
+	public static Vector<Object> getEventDetails(String eventID)
+			throws SQLException {
+		Connection conn = DBUtilFactory.getConnection();
+		Statement stmt = conn.createStatement();
+		Vector<Object> rowData = new Vector<Object>();
+
+		String eventDetailsSQL = "select EventName, EventDescription, EventStartDate,"
+				+ " EventEndDate, EventStartTime, EventEndTime, EventType from events where eventID = "
+				+ eventID;
+
+		ResultSet rs = stmt.executeQuery(eventDetailsSQL);
+
+		while (rs.next()) {
+			for (int count = 1; count <= 7; count++) {
+				rowData.add(rs.getObject(count));
+			}
+		}
+
+		return rowData;
+	}
+
+	public static int updateEventDetails(String eventID) throws SQLException {
+		Connection conn = DBUtilFactory.getConnection();
+		Statement stmt = conn.createStatement();
+
+		String updatedEventSQL = "update events set eventname = '"
+				+ ManageEventPanel.textFieldEventName.getText()
+				+ "', eventdescription = '"
+				+ ManageEventPanel.textAreaEventDescription.getText()
+				+ "', eventstartdate = '"
+				+ ManageEventPanel.formattedTextFieldStartDate.getText()
+				+ "', eventenddate = '"
+				+ ManageEventPanel.formattedTextFieldEndDate.getText()
+				+ "', eventstarttime = '"
+				+ ManageEventPanel.textFieldStartHrs.getText()
+				+ ":"
+				+ ManageEventPanel.textFieldStartMins.getText()
+				+ "', eventendtime = '"
+				+ ManageEventPanel.textFieldEndHrs.getText()
+				+ ":"
+				+ ManageEventPanel.textFieldEndMins.getText()
+				+ "', eventtype = '"
+				+ ManageEventPanel.comboBoxEventType.getSelectedItem()
+						.toString() + "' where eventID = " + eventID
+				+ " and creatorID = " + System.getProperty("creatorID");
+		
+		int result = stmt.executeUpdate(updatedEventSQL);
+		
+		conn.close();
 		
 		return result;
 	}

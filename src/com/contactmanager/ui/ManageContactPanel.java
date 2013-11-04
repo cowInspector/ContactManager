@@ -23,6 +23,7 @@ import com.contactmanager.ui.eventhandlers.ManageContactEventHandler;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.Component;
 
 public class ManageContactPanel extends JPanel {
 	public static JTextField textFieldFirstName;
@@ -31,11 +32,11 @@ public class ManageContactPanel extends JPanel {
 	public static JTextField textFieldNickName;
 	public static JTextField textFieldPrefix;
 	public static JTextField textFieldSuffix;
-	public static JTable tableAddressTable;
-	public static JTable tablePhoneDetails;
-	public static JTable tableEmail;
 	public static JComboBox comboBoxRelationship;
 	public static JFormattedTextField formattedTextFieldFirstMet;
+	public static JTable tableAddrDetails;
+	public static JTable tablePhoneDetails;
+	public static JTable tableEmailDetails;
 
 	/**
 	 * Create the panel.
@@ -137,14 +138,32 @@ public class ManageContactPanel extends JPanel {
 				.createTitledBorder("Phone Details");
 		panelPhoneDetails.setBorder(phoneDetailsTitle);
 		panelPhoneDetails.setLayout(null);
-
+		
 		tablePhoneDetails = new JTable();
-		tablePhoneDetails.setBounds(10, 24, 332, 294);
-		// panelPhoneDetails.add(tablePhoneDetails);
-
-		JScrollPane scrollPanePhDetails = new JScrollPane(tablePhoneDetails);
-		scrollPanePhDetails.setBounds(10, 309, 332, -296);
-		panelPhoneDetails.add(scrollPanePhDetails);
+		add(tablePhoneDetails);
+		JScrollPane scrollPanePhoneDetails = new JScrollPane(tablePhoneDetails);
+		scrollPanePhoneDetails.setBounds(10, 23, 336, 261);
+		panelPhoneDetails.add(scrollPanePhoneDetails);
+		
+		JButton btnAddPhoneNumber = new JButton("Add Phone Number");
+		btnAddPhoneNumber.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				DefaultTableModel model = (DefaultTableModel) tablePhoneDetails.getModel();
+				model.addRow(new Object[]{"","",""});
+			}
+		});
+		btnAddPhoneNumber.setBounds(10, 295, 136, 23);
+		panelPhoneDetails.add(btnAddPhoneNumber);
+		
+		JButton btnDeleteSelectedPhone = new JButton("Delete Selected Phone Number");
+		btnDeleteSelectedPhone.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				DefaultTableModel model = (DefaultTableModel) tablePhoneDetails.getModel();
+				model.removeRow(tablePhoneDetails.getSelectedRow());
+			}
+		});
+		btnDeleteSelectedPhone.setBounds(156, 295, 190, 23);
+		panelPhoneDetails.add(btnDeleteSelectedPhone);
 
 		JPanel panelAddressDetails = new JPanel();
 		panelAddressDetails.setBounds(254, 44, 682, 353);
@@ -153,14 +172,32 @@ public class ManageContactPanel extends JPanel {
 				.createTitledBorder("Address Details");
 		panelAddressDetails.setBorder(addrDetailsTitle);
 		panelAddressDetails.setLayout(null);
-
-		tableAddressTable = new JTable();
-		tableAddressTable.setBounds(20, 24, 652, 307);
-		// panelAddressDetails.add(tableAddressTable);
-
-		JScrollPane scrollPaneAddrDetails = new JScrollPane(tableAddressTable);
-		scrollPaneAddrDetails.setBounds(10, 342, 662, -329);
+		
+		tableAddrDetails = new JTable();
+		add(tableAddrDetails);
+		JScrollPane scrollPaneAddrDetails = new JScrollPane(tableAddrDetails);
+		scrollPaneAddrDetails.setBounds(10, 24, 662, 267);
 		panelAddressDetails.add(scrollPaneAddrDetails);
+		
+		JButton btnAddAddress = new JButton("Add Address");
+		btnAddAddress.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				DefaultTableModel model = (DefaultTableModel) tableAddrDetails.getModel();
+				model.addRow(new Object[]{"","","","","","","",""});
+			}
+		});
+		btnAddAddress.setBounds(10, 302, 122, 23);
+		panelAddressDetails.add(btnAddAddress);
+		
+		JButton btnDeleteSelectedAddress = new JButton("Delete Selected Address");
+		btnDeleteSelectedAddress.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				DefaultTableModel model = (DefaultTableModel) tableAddrDetails.getModel();
+				model.removeRow(tableAddrDetails.getSelectedRow());
+			}
+		});
+		btnDeleteSelectedAddress.setBounds(142, 302, 149, 23);
+		panelAddressDetails.add(btnDeleteSelectedAddress);
 
 		JPanel panelEmail = new JPanel();
 		panelEmail.setBounds(372, 409, 564, 329);
@@ -169,13 +206,33 @@ public class ManageContactPanel extends JPanel {
 				.createTitledBorder("Email Details");
 		panelEmail.setBorder(emailTitle);
 		panelEmail.setLayout(null);
-
-		tableEmail = new JTable();
-		tableEmail.setBounds(22, 309, 532, -289);
-		panelEmail.add(tableEmail);
-		JScrollPane scrollPaneEmail = new JScrollPane(tableEmail);
-		scrollPaneEmail.setBounds(548, 11, -536, 307);
+		
+		tableEmailDetails = new JTable();
+		add(tableEmailDetails);
+		
+		JScrollPane scrollPaneEmail = new JScrollPane(tableEmailDetails);
+		scrollPaneEmail.setBounds(10, 18, 544, 259);
 		panelEmail.add(scrollPaneEmail);
+		
+		JButton btnAddEmail = new JButton("Add Email");
+		btnAddEmail.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				DefaultTableModel model = (DefaultTableModel) tableEmailDetails.getModel();
+				model.addRow(new Object[]{"","",""});
+			}
+		});
+		btnAddEmail.setBounds(10, 295, 89, 23);
+		panelEmail.add(btnAddEmail);
+		
+		JButton btnDeleteSelectedEmail = new JButton("Delete Selected Email");
+		btnDeleteSelectedEmail.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				DefaultTableModel model = (DefaultTableModel) tableEmailDetails.getModel();
+				model.removeRow(tableEmailDetails.getSelectedRow());
+			}
+		});
+		btnDeleteSelectedEmail.setBounds(133, 295, 135, 23);
+		panelEmail.add(btnDeleteSelectedEmail);
 
 		JButton btnSave = new JButton("Save");
 		btnSave.addActionListener(new ManageContactEventHandler());

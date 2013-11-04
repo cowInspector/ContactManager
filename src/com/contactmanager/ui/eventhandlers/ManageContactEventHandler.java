@@ -22,10 +22,49 @@ public class ManageContactEventHandler implements ActionListener {
 		try {
 			contactData = DBQueryExecute.getContactDetails(contactID);
 			populateUIElements(contactData);
+			setPhoneDetails(contactID);
+			setAddressDetails(contactID);
+			setEmailDetails(contactID);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return contactData;
+	}
+
+	private static void setEmailDetails(String contactID) {
+		try {
+			ManageContactPanel.tableEmailDetails.setModel(DBQueryExecute
+					.getEmailDetails(contactID));
+			ManageContactPanel.tableEmailDetails
+			.removeColumn(ManageContactPanel.tableEmailDetails
+					.getColumnModel().getColumn(0));
+		} catch (Exception se) {
+			se.printStackTrace();
+		}
+	}
+
+	private static void setAddressDetails(String contactID) {
+		try {
+			ManageContactPanel.tableAddrDetails.setModel(DBQueryExecute
+					.getAddressDetails(contactID));
+			ManageContactPanel.tableAddrDetails
+					.removeColumn(ManageContactPanel.tableAddrDetails
+							.getColumnModel().getColumn(0));
+		} catch (SQLException se) {
+			se.printStackTrace();
+		}
+	}
+
+	private static void setPhoneDetails(String contactID) {
+		try {
+			ManageContactPanel.tablePhoneDetails.setModel(DBQueryExecute
+					.getPhoneDetails(contactID));
+			ManageContactPanel.tablePhoneDetails
+					.removeColumn(ManageContactPanel.tablePhoneDetails
+							.getColumnModel().getColumn(0));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public static void populateUIElements(Vector<Object> contactData) {

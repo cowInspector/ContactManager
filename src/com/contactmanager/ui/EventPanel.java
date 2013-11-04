@@ -16,11 +16,16 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import com.contactmanager.ui.eventhandlers.EventSearchEventHandler;
+import com.contactmanager.ui.eventhandlers.ManageEventEventHandler;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
 import javax.swing.JList;
 import javax.swing.AbstractListModel;
+
 import java.awt.Component;
 
 public class EventPanel extends JPanel {
@@ -103,6 +108,26 @@ public class EventPanel extends JPanel {
 		JScrollPane scrollPane = new JScrollPane(table);
 		scrollPane.setBounds(10, 116, 638, 373);
 		add(scrollPane);
-		//scrollPane.setColumnHeaderView(table);
+		
+		table.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(final MouseEvent e) {
+				if (e.getClickCount() == 2) {
+					final JTable target = (JTable) e.getSource();
+					final int row = target.getSelectedRow();
+					
+					try {
+						System.setProperty("currentEventID", table.getModel()
+								.getValueAt(table.convertRowIndexToModel(row),
+										0).toString());
+						CardLayout cl = (CardLayout) MainWindow.cards.getLayout();
+						cl.show(MainWindow.cards, "ManageEvent");
+						ManageEventEventHandler.getEventDetailsData(System.getProperty("currentEventID"));
+					} catch (Exception e1) {
+						e1.printStackTrace();
+					}
+				}
+			}
+		});
 	}
 }

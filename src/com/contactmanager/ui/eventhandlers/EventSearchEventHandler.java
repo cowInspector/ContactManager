@@ -11,6 +11,7 @@ import java.util.Vector;
 import javax.swing.table.DefaultTableModel;
 
 import com.contactmanager.db.DBQueryExecute;
+import com.contactmanager.ui.ContactSearchPanel;
 import com.contactmanager.ui.EventPanel;
 
 /**
@@ -27,6 +28,7 @@ public class EventSearchEventHandler implements ActionListener {
 		if (e.getSource().toString().contains("Search")) {
 			try {
 				EventPanel.table.setModel(DBQueryExecute.searchEvent());
+				EventPanel.table.removeColumn(EventPanel.table.getColumnModel().getColumn(0));
 				EventPanel.table.setVisible(true);
 			} catch (SQLException e1) {
 				e1.printStackTrace();
