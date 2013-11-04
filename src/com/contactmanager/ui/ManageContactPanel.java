@@ -1,6 +1,9 @@
 package com.contactmanager.ui;
 
+import java.awt.CardLayout;
 import java.awt.Font;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.util.Vector;
 
 import javax.swing.BorderFactory;
@@ -17,6 +20,9 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.JButton;
 
 import com.contactmanager.ui.eventhandlers.ManageContactEventHandler;
+
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class ManageContactPanel extends JPanel {
 	public static JTextField textFieldFirstName;
@@ -172,38 +178,23 @@ public class ManageContactPanel extends JPanel {
 		panelEmail.add(scrollPaneEmail);
 
 		JButton btnSave = new JButton("Save");
+		btnSave.addActionListener(new ManageContactEventHandler());
 		btnSave.setBounds(254, 11, 89, 23);
 		add(btnSave);
 
 		JButton btnDelete = new JButton("Delete");
 		btnDelete.setBounds(353, 11, 89, 23);
+		btnDelete.addActionListener(new ManageContactEventHandler());
 		add(btnDelete);
 
 		JButton btnBack = new JButton("Back");
+		btnBack.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				CardLayout cl = (CardLayout) MainWindow.cards.getLayout();
+				cl.show(MainWindow.cards, "Contact");
+			}
+		});
 		btnBack.setBounds(452, 11, 89, 23);
 		add(btnBack);
-
-		populateUIElements(ManageContactEventHandler.setContactDetails(System
-				.getProperty("currentContactID")));
 	}
-
-	private void populateUIElements(Vector<Object> contactData) {
-		//MainWindow.manageContactPanel.textFieldPrefix.setText(contactData.get(0).toString());
-		ManageContactPanel.textFieldPrefix.setText(contactData.get(0)==null?"":contactData.get(0).toString());
-		//MainWindow.manageContactPanel.textFieldFirstName.setText(contactData.get(1).toString());
-		ManageContactPanel.textFieldFirstName.setText(contactData.get(1)==null?"":contactData.get(1).toString());
-		//MainWindow.manageContactPanel.textFieldMiddleName.setText(contactData.get(2).toString());
-		ManageContactPanel.textFieldMiddleName.setText(contactData.get(2)==null?"":contactData.get(2).toString());
-		//MainWindow.manageContactPanel.textFieldLastName.setText(contactData.get(3).toString());
-		ManageContactPanel.textFieldLastName.setText(contactData.get(3)==null?"":contactData.get(3).toString());
-		//MainWindow.manageContactPanel.textFieldSuffix.setText(contactData.get(4).toString());
-		ManageContactPanel.textFieldSuffix.setText(contactData.get(4)==null?"":contactData.get(4).toString());
-		//MainWindow.manageContactPanel.textFieldNickName.setText(contactData.get(5).toString());
-		ManageContactPanel.textFieldNickName.setText(contactData.get(5)==null?"":contactData.get(5).toString());
-		//MainWindow.manageContactPanel.comboBoxRelationship.setSelectedItem(contactData.get(6).toString());
-		ManageContactPanel.comboBoxRelationship.setSelectedItem(contactData.get(6)==null?"SPOUSE":contactData.get(6).toString());
-		//MainWindow.manageContactPanel.formattedTextFieldFirstMet.setText(contactData.get(7).toString());
-		ManageContactPanel.formattedTextFieldFirstMet.setText(contactData.get(7)==null?"":contactData.get(7).toString());
-	}
-
 }

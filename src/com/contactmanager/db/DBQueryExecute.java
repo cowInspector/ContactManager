@@ -12,6 +12,10 @@ import java.util.Vector;
 
 import javax.swing.table.DefaultTableModel;
 
+import com.contactmanager.ui.AddEventDetails;
+import com.contactmanager.ui.EventPanel;
+import com.contactmanager.ui.ManageContactPanel;
+
 /**
  * @author hkrishna
  * 
@@ -329,8 +333,133 @@ public class DBQueryExecute {
 
 		String createUserSQL = "INSERT INTO USERS (UserName, Password) values ('"
 				+ userName + "', '" + password + "')";
-		
+
 		int result = stmt.executeUpdate(createUserSQL);
+
+		return result;
+	}
+
+	public static Vector<Object> getContactList() throws SQLException {
+
+		Vector<Object> rowData = new Vector<>();
+
+		Connection conn = DBUtilFactory.getConnection();
+		Statement stmt = conn.createStatement();
+
+		String getContactsSQL = "SELECT CONTACTID, FirstName, LastName "
+				+ "from Contacts where ActiveFlag = '1' and CreatorID = "
+				+ System.getProperty("creatorID");
+
+		ResultSet rs = stmt.executeQuery(getContactsSQL);
+
+		while (rs.next()) {
+			rowData.add(rs.getString(2) + " " + rs.getString(3));
+		}
+
+		return rowData;
+	}
+
+	public static int createEvent() throws SQLException {
+
+		Connection conn = DBUtilFactory.getConnection();
+		Statement stmt = conn.createStatement();
+
+		String insertEventSQL = "INSERT INTO EVENTS (EventName, EventDescription, EventStartDate,"
+				+ " EventEndDate, EventStartTime, EventEndTime, EventType, CreatorID) values('"
+				+ AddEventDetails.textFieldEventName.getText()
+				+ "', '"
+				+ AddEventDetails.textAreaEventDescription.getText()
+				+ "', '"
+				+ AddEventDetails.formattedTextFieldStartDate.getText()
+				+ "', '"
+				+ AddEventDetails.formattedTextFieldEndDate.getText()
+				+ "', '"
+				+ AddEventDetails.textFieldStartHrs.getText()
+				+ ":"
+				+ AddEventDetails.textFieldStartMins.getText()
+				+ "', '"
+				+ AddEventDetails.textFieldEndHrs.getText()
+				+ ":"
+				+ AddEventDetails.textFieldEndMins.getText()
+				+ "', '"
+				+ AddEventDetails.comboBoxEventType.getSelectedItem()
+						.toString()
+				+ "', "
+				+ System.getProperty("creatorID")
+				+ ")";
+
+		int result = stmt.executeUpdate(insertEventSQL);
+
+		return result;
+
+	}
+
+	public static DefaultTableModel searchEvent() throws SQLException {
+		Connection conn = DBUtilFactory.getConnection();
+		Statement stmt = conn.createStatement();
+
+		String searchEventSQL = "SELECT eventname, eventstartdate, eventstarttime, eventenddate, eventendtime, eventtype from events where creatorid = "
+				+ System.getProperty("creatorID")
+				+ " and eventname like '%"
+				+ EventPanel.textFieldEventName.getText()
+				+ "%' and eventstartdate = '"
+				+ EventPanel.textFieldEventDate.getText()
+				+ "' and eventtype like '%"
+				+ EventPanel.comboBoxEventType.getSelectedItem().toString()
+				+ "%'";
+
+		ResultSet rs = stmt.executeQuery(searchEventSQL);
+
+		Vector<String> columnNames = new Vector<String>();
+		columnNames.add("Event Name");
+		columnNames.add("Event Start Date");
+		columnNames.add("Event Start Time");
+		columnNames.add("Event End Date");
+		columnNames.add("Event End Time");
+		columnNames.add("Event Type");
+
+		Vector<Vector<Object>> searchData = new Vector<Vector<Object>>();
+
+		while (rs.next()) {
+			Vector<Object> rowData = new Vector<Object>();
+			for (int count = 1; count <= 6; count++) {
+				rowData.add(rs.getObject(count));
+			}
+			searchData.add(rowData);
+		}
+
+		return new DefaultTableModel(searchData, columnNames) {
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				return false;
+			}
+		};
+	}
+
+	public static int updateContactDetails(String contactID)
+			throws SQLException {
+		Connection conn = DBUtilFactory.getConnection();
+		Statement stmt = conn.createStatement();
+
+		String updateContactSQL = "UPDATE CONTACTS SET PREFIX = '"
+				+ ManageContactPanel.textFieldPrefix.getText()
+				+ "', FirstName = '"
+				+ ManageContactPanel.textFieldFirstName.getText()
+				+ "', LastName = '"
+				+ ManageContactPanel.textFieldLastName.getText()
+				+ "', MiddleName = '"
+				+ ManageContactPanel.textFieldMiddleName.getText()
+				+ "', Suffix = '"
+				+ ManageContactPanel.textFieldSuffix.getText()
+				+ "', Nickname = '"
+				+ ManageContactPanel.textFieldNickName.getText()
+				+ "', Relationship = '"
+				+ ManageContactPanel.comboBoxRelationship.getSelectedItem()
+						.toString() + "', FirstMet = '"
+				+ ManageContactPanel.formattedTextFieldFirstMet.getText()
+				+ "' where contactID = " + contactID + " and creatorID = " + System.getProperty("creatorID");
+		
+		int result = stmt.executeUpdate(updateContactSQL);
 		
 		return result;
 	}

@@ -118,10 +118,12 @@ public class ContactSearchPanel extends JPanel {
 						System.setProperty("currentContactID", table.getModel()
 								.getValueAt(table.convertRowIndexToModel(row),
 										0).toString());
-						ManageContactPanel manageContactPanel = new ManageContactPanel();
-						MainWindow.cards.add(manageContactPanel);
+						//ManageContactPanel manageContactPanel = new ManageContactPanel();
+						//MainWindow.cards.add(manageContactPanel);
 						CardLayout cl = (CardLayout) MainWindow.cards.getLayout();
 						cl.show(MainWindow.cards, "ManageContact");
+						ManageContactEventHandler.setContactDetails(System.getProperty("currentContactID"));
+						
 					} catch (Exception e1) {
 						e1.printStackTrace();
 					}
@@ -130,4 +132,6 @@ public class ContactSearchPanel extends JPanel {
 		});
 
 	}
+	
+	
 }

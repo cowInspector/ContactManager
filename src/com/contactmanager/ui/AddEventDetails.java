@@ -15,15 +15,22 @@ import javax.swing.JFormattedTextField;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 
+import com.contactmanager.ui.eventhandlers.AddEventEventHandler;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.DefaultComboBoxModel;
 
 public class AddEventDetails extends JPanel {
-	private JTextField textFieldEventName;
-	private JTextField textFieldStartHrs;
-	private JTextField textFieldStartMins;
-	private JTextField textFieldEndHrs;
-	private JTextField textFieldEndMins;
+	public static JTextField textFieldEventName;
+	public static JTextField textFieldStartHrs;
+	public static JTextField textFieldStartMins;
+	public static JTextField textFieldEndHrs;
+	public static JTextField textFieldEndMins;
+	public static JTextArea textAreaEventDescription;
+	public static JFormattedTextField formattedTextFieldStartDate;
+	public static JFormattedTextField formattedTextFieldEndDate;
+	public static JComboBox comboBoxEventType;
 
 	/**
 	 * Create the panel.
@@ -57,7 +64,7 @@ public class AddEventDetails extends JPanel {
 		lblEventDescription.setBounds(10, 60, 91, 14);
 		panelEventDetails.add(lblEventDescription);
 		
-		final JTextArea textAreaEventDescription = new JTextArea();
+		textAreaEventDescription = new JTextArea();
 		textAreaEventDescription.setBounds(109, 57, 137, 120);
 		panelEventDetails.add(textAreaEventDescription);
 		
@@ -65,7 +72,7 @@ public class AddEventDetails extends JPanel {
 		lblStartDate.setBounds(256, 28, 72, 14);
 		panelEventDetails.add(lblStartDate);
 		
-		final JFormattedTextField formattedTextFieldStartDate = new JFormattedTextField();
+		formattedTextFieldStartDate = new JFormattedTextField();
 		formattedTextFieldStartDate.setToolTipText("YYYY-MM-DD");
 		formattedTextFieldStartDate.setBounds(322, 25, 109, 20);
 		panelEventDetails.add(formattedTextFieldStartDate);
@@ -74,7 +81,7 @@ public class AddEventDetails extends JPanel {
 		lblEndDate.setBounds(256, 60, 46, 14);
 		panelEventDetails.add(lblEndDate);
 		
-		final JFormattedTextField formattedTextFieldEndDate = new JFormattedTextField();
+		formattedTextFieldEndDate = new JFormattedTextField();
 		formattedTextFieldEndDate.setToolTipText("YYYY-MM-DD");
 		formattedTextFieldEndDate.setBounds(322, 57, 109, 20);
 		panelEventDetails.add(formattedTextFieldEndDate);
@@ -115,30 +122,22 @@ public class AddEventDetails extends JPanel {
 		panelEventDetails.add(textFieldEndMins);
 		textFieldEndMins.setColumns(10);
 		
+		JLabel lblEventType = new JLabel("Event Type");
+		lblEventType.setBounds(256, 104, 56, 14);
+		panelEventDetails.add(lblEventType);
+		
+		comboBoxEventType = new JComboBox();
+		comboBoxEventType.setModel(new DefaultComboBoxModel(new String[] {"BIRTHDAY", "ANNIVERSARY", "MEETING", "OTHERS"}));
+		comboBoxEventType.setBounds(322, 101, 109, 20);
+		panelEventDetails.add(comboBoxEventType);
+		
 		TitledBorder reminderTitle = BorderFactory.createTitledBorder("Add Reminder");
 		
-		JPanel panelAssociateContact = new JPanel();
-		panelAssociateContact.setBounds(10, 249, 325, 107);
-		add(panelAssociateContact);
-		
 		TitledBorder contactsTitle = BorderFactory.createTitledBorder("Associate Contact");
-		panelAssociateContact.setBorder(contactsTitle);
-		panelAssociateContact.setLayout(null);
-		
-		JLabel lblNewLabel = new JLabel("Contact Name");
-		lblNewLabel.setBounds(10, 31, 78, 14);
-		panelAssociateContact.add(lblNewLabel);
-		
-		final JComboBox comboBoxContact = new JComboBox();
-		comboBoxContact.setBounds(98, 28, 217, 20);
-		panelAssociateContact.add(comboBoxContact);
-		
-		JButton btnAddAnotherContact = new JButton("Add Another Contact");
-		btnAddAnotherContact.setBounds(10, 67, 144, 23);
-		panelAssociateContact.add(btnAddAnotherContact);
 		
 		JButton btnSave = new JButton("Save");
-		btnSave.setBounds(10, 367, 89, 23);
+		btnSave.addActionListener(new AddEventEventHandler());
+		btnSave.setBounds(20, 248, 89, 23);
 		add(btnSave);
 		
 		JButton btnClear = new JButton("Clear");
@@ -152,12 +151,10 @@ public class AddEventDetails extends JPanel {
 				textAreaEventDescription.setText("");
 				formattedTextFieldStartDate.setText("");
 				formattedTextFieldEndDate.setText("");
-				ComboBoxModel<Object> cbModel = comboBoxContact.getModel();
-				if (cbModel.getSize() > 0)
-				comboBoxContact.setSelectedIndex(0);
+				comboBoxEventType.setSelectedIndex(0);
 			}
 		});
-		btnClear.setBounds(127, 367, 89, 23);
+		btnClear.setBounds(138, 248, 89, 23);
 		add(btnClear);
 		
 		JButton btnBack = new JButton("Back");
@@ -167,7 +164,7 @@ public class AddEventDetails extends JPanel {
 				cl.show(MainWindow.cards, "Contact");
 			}
 		});
-		btnBack.setBounds(246, 367, 89, 23);
+		btnBack.setBounds(255, 248, 89, 23);
 		add(btnBack);
 
 	}

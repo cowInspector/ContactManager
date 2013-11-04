@@ -19,13 +19,15 @@ import com.contactmanager.ui.eventhandlers.EventSearchEventHandler;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JList;
+import javax.swing.AbstractListModel;
+import java.awt.Component;
 
 public class EventPanel extends JPanel {
 	public static JTextField textFieldEventName;
 	public static JTextField textFieldEventDate;
-	public static JTextField textFieldContact;
-	public static JTable table;
 	public static JComboBox comboBoxEventType;
+	public static JTable table;
 
 	/**
 	 * Create the panel.
@@ -65,31 +67,21 @@ public class EventPanel extends JPanel {
 		comboBoxEventType.setBounds(513, 45, 137, 20);
 		add(comboBoxEventType);
 		
-		JLabel lblAssociatedContact = new JLabel("Associated Contact");
-		lblAssociatedContact.setBounds(10, 86, 106, 14);
-		add(lblAssociatedContact);
-		
-		textFieldContact = new JTextField();
-		textFieldContact.setBounds(118, 83, 137, 20);
-		add(textFieldContact);
-		textFieldContact.setColumns(10);
-		
 		JButton btnSearch = new JButton("Search");
 		btnSearch.addActionListener(new EventSearchEventHandler());
-		btnSearch.setBounds(295, 82, 89, 23);
+		btnSearch.setBounds(10, 82, 89, 23);
 		add(btnSearch);
 		
 		JButton btnClear = new JButton("Clear");
 		btnClear.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				textFieldContact.setText("");
 				textFieldEventDate.setText("");
 				textFieldEventName.setText("");
 				comboBoxEventType.setSelectedIndex(0);
 				table.setVisible(false);
 			}
 		});
-		btnClear.setBounds(394, 82, 89, 23);
+		btnClear.setBounds(109, 82, 89, 23);
 		add(btnClear);
 		
 		JButton btnAddEvent = new JButton("Add Event");
@@ -99,19 +91,18 @@ public class EventPanel extends JPanel {
 				cl.show(MainWindow.cards, "AddEvent");
 			}
 		});
-		btnAddEvent.setBounds(493, 82, 89, 23);
+		btnAddEvent.setBounds(208, 82, 89, 23);
 		add(btnAddEvent);
 		
 		JSeparator separator = new JSeparator();
-		separator.setBounds(10, 111, 777, 2);
+		separator.setBounds(10, 111, 638, 2);
 		add(separator);
 		
 		table = new JTable();
-		table.setBounds(10, 426, 558, -300);
+		add(table);
 		JScrollPane scrollPane = new JScrollPane(table);
-		scrollPane.setBounds(10, 492, 777, -366);
+		scrollPane.setBounds(10, 116, 638, 373);
 		add(scrollPane);
-		//add(table);
-
+		//scrollPane.setColumnHeaderView(table);
 	}
 }

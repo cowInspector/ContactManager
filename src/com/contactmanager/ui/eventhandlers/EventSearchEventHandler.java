@@ -5,10 +5,12 @@ package com.contactmanager.ui.eventhandlers;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.util.Vector;
 
 import javax.swing.table.DefaultTableModel;
 
+import com.contactmanager.db.DBQueryExecute;
 import com.contactmanager.ui.EventPanel;
 
 /**
@@ -22,20 +24,14 @@ public class EventSearchEventHandler implements ActionListener {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		Vector<String> columnNames = new Vector<String>();
-		
-		columnNames.add("Col1");
-		columnNames.add("Col2");
-		
-		Vector<Vector<Object>> data = new Vector<Vector<Object>>();
-		Vector<Object> row = new Vector<Object>();
-		row.add("Row data1");
-		row.add("Row data2");
-		data.add(row);
-		
-		EventPanel.table.setModel(new DefaultTableModel(data, columnNames));
-		
-		System.out.println(e.getSource());
+		if (e.getSource().toString().contains("Search")) {
+			try {
+				EventPanel.table.setModel(DBQueryExecute.searchEvent());
+				EventPanel.table.setVisible(true);
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+		}
 	}
 
 }
