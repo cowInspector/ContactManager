@@ -1,5 +1,5 @@
 /**
- * 
+ * EventHandler class for ManageEventPanel screen
  */
 package com.contactmanager.ui.eventhandlers;
 
@@ -20,6 +20,10 @@ import com.contactmanager.ui.ManageEventPanel;
  */
 public class ManageEventEventHandler implements ActionListener {
 
+	/**
+	 * @param eventID
+	 * Gets the relevant data to populate the fields of ManageEventPanel screen on load.
+	 */
 	public static void getEventDetailsData(String eventID) {
 		try {
 			populateUI(DBQueryExecute.getEventDetails(eventID));
@@ -29,6 +33,10 @@ public class ManageEventEventHandler implements ActionListener {
 		}
 	}
 
+	/**
+	 * @param eventDetails
+	 * Populates the fields of ManageEventPanel screen on load.
+	 */
 	private static void populateUI(Vector<Object> eventDetails) {
 		ManageEventPanel.textFieldEventName
 				.setText(eventDetails.get(0) == null ? "" : eventDetails.get(0)
@@ -66,11 +74,11 @@ public class ManageEventEventHandler implements ActionListener {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		//Delete the event.
 		if (e.getSource().toString().contains("Delete")) {
 			try {
 				if (DBQueryExecute.deleteEvent(System
 						.getProperty("currentEventID")) > 0) {
-					System.out.println("Deleted");
 					CardLayout cl = (CardLayout) MainWindow.cards.getLayout();
 					cl.show(MainWindow.cards, "Contact");
 				}
@@ -79,11 +87,11 @@ public class ManageEventEventHandler implements ActionListener {
 			}
 		}
 
+		//Update the changes made to the event. 
 		if (e.getSource().toString().contains("Save")) {
 			try {
 				if (DBQueryExecute.updateEventDetails(System
 							.getProperty("currentEventID")) > 0) {
-					System.out.println("Updated");
 					CardLayout cl = (CardLayout) MainWindow.cards.getLayout();
 					cl.show(MainWindow.cards, "Contact");
 				}

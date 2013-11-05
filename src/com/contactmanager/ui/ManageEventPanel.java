@@ -23,6 +23,10 @@ import javax.swing.JScrollPane;
 import java.awt.Component;
 import javax.swing.JTable;
 
+/**
+ * @author Yogeshwara Krishnan
+ * UI Class to modify event details, delete event.
+ */
 public class ManageEventPanel extends JPanel {
 	public static JTextField textFieldEventName;
 	public static JTextField textFieldStartHrs;

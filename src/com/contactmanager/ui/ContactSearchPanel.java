@@ -22,6 +22,12 @@ import com.contactmanager.db.DBQueryExecute;
 import com.contactmanager.ui.eventhandlers.ContactSearchEventHandlers;
 import com.contactmanager.ui.eventhandlers.ManageContactEventHandler;
 
+/**
+ * @author Yogeshwara Krishnan
+ * 
+ *         This UI class is for Contact Search feature.
+ * 
+ */
 public class ContactSearchPanel extends JPanel {
 	public static JTextField textFieldFirstName;
 	public static JTextField textFieldLastName;
@@ -30,7 +36,7 @@ public class ContactSearchPanel extends JPanel {
 	public static JLabel lblStatusMessage;
 
 	/**
-	 * Create the panel.
+	 * Create the panel. Initialize UI elements.
 	 */
 	public ContactSearchPanel() {
 		setLayout(null);
@@ -83,7 +89,7 @@ public class ContactSearchPanel extends JPanel {
 		btnSearch.addActionListener(new ContactSearchEventHandlers());
 		btnSearch.setBounds(253, 71, 89, 23);
 		add(btnSearch);
-		
+
 		JButton btnClear = new JButton("Clear");
 		btnClear.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -95,7 +101,7 @@ public class ContactSearchPanel extends JPanel {
 		});
 		btnClear.setBounds(352, 71, 89, 23);
 		add(btnClear);
-		
+
 		JButton btnAddContact = new JButton("Add Contact");
 		btnAddContact.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -105,29 +111,36 @@ public class ContactSearchPanel extends JPanel {
 		});
 		btnAddContact.setBounds(451, 71, 106, 23);
 		add(btnAddContact);
-		
+
 		lblStatusMessage = new JLabel("Status Message");
 		lblStatusMessage.setVisible(false);
 		lblStatusMessage.setBounds(10, 591, 730, 14);
 		add(lblStatusMessage);
 		final TitledBorder title;
 		title = BorderFactory.createTitledBorder("Phone Details");
-		
+
+		// Add Mouse Listener to the table rows. On double click, the contact in
+		// the search results table is selected for modification.
 		table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(final MouseEvent e) {
 				if (e.getClickCount() == 2) {
 					final JTable target = (JTable) e.getSource();
 					final int row = target.getSelectedRow();
-					
+
 					try {
-						System.setProperty("currentContactID", table.getModel()
-								.getValueAt(table.convertRowIndexToModel(row),
-										0).toString());
-						CardLayout cl = (CardLayout) MainWindow.cards.getLayout();
+						System.setProperty(
+								"currentContactID",
+								table.getModel()
+										.getValueAt(
+												table.convertRowIndexToModel(row),
+												0).toString());
+						CardLayout cl = (CardLayout) MainWindow.cards
+								.getLayout();
 						cl.show(MainWindow.cards, "ManageContact");
-						ManageContactEventHandler.setContactDetails(System.getProperty("currentContactID"));
-						
+						ManageContactEventHandler.setContactDetails(System
+								.getProperty("currentContactID"));
+
 					} catch (Exception e1) {
 						e1.printStackTrace();
 					}
@@ -136,6 +149,5 @@ public class ContactSearchPanel extends JPanel {
 		});
 
 	}
-	
-	
+
 }

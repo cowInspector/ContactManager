@@ -19,6 +19,10 @@ import com.contactmanager.ui.eventhandlers.AddContactEventHandler;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
+/**
+ * @author Yogeshwara Krishnan
+ *
+ */
 public class AddContactPanel extends JPanel {
 	public static JTextField textFieldFirstName;
 	public static JTextField textFieldMidName;
@@ -43,7 +47,7 @@ public class AddContactPanel extends JPanel {
 	public static JFormattedTextField formattedTextFieldDateMet;
 
 	/**
-	 * Create the panel.
+	 * Create the panel. UI Initialization takes place here.
 	 */
 	public AddContactPanel() {
 		setLayout(null);

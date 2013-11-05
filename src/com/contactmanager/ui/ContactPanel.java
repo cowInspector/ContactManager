@@ -11,10 +11,16 @@ import javax.swing.JTable;
 import javax.swing.JTabbedPane;
 import javax.swing.JLabel;
 
+/**
+ * @author Yogeshwara Krishnan
+ * 
+ * This UI class is a container for ContactSearchPanel and EventsPanel.
+ *
+ */
 public class ContactPanel extends JPanel {
 
 	/**
-	 * Create the panel.
+	 * Create the panel. Add ContactSearchPanel and EventsPanel.
 	 */
 	public ContactPanel() {
 		setPreferredSize(new Dimension(900, 700));
@@ -35,8 +41,6 @@ public class ContactPanel extends JPanel {
 		tabbedPane.setBounds(10, 42, 890, 647);
 		add(tabbedPane);
 		
-		/*FrequentContactsPanel fcp = new FrequentContactsPanel();
-		tabbedPane.addTab("Frequent Contacts", null, fcp, null);*/
 		ContactSearchPanel csp = new ContactSearchPanel();
 		tabbedPane.addTab("Contact Search", null, csp, null);
 		EventPanel ep = new EventPanel();

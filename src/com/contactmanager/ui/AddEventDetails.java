@@ -31,6 +31,12 @@ import javax.swing.JTable;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+/**
+ * @author Yogeshwara Krishnan
+ * 
+ * This is a UI class for adding events and corresponding details.
+ *
+ */
 public class AddEventDetails extends JPanel {
 	public static JTextField textFieldEventName;
 	public static JTextField textFieldStartHrs;
@@ -45,7 +51,7 @@ public class AddEventDetails extends JPanel {
 	private JTextField textFieldParticipant;
 
 	/**
-	 * Create the panel.
+	 * Create the panel. UI Initialization takes place here.
 	 */
 	public AddEventDetails() {
 		setLayout(null);
@@ -162,6 +168,7 @@ public class AddEventDetails extends JPanel {
 		panelContacts.add(scrollPaneContacts);
 
 		tableContacts = new JTable();
+		// Add MouseListener to the table. On double click of a row, the contact is selected.
 		tableContacts.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -204,6 +211,7 @@ public class AddEventDetails extends JPanel {
 		add(btnSave);
 
 		JButton btnClear = new JButton("Clear");
+		// Clear the UI.
 		btnClear.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				textFieldEventName.setText("");
@@ -222,6 +230,7 @@ public class AddEventDetails extends JPanel {
 		add(btnClear);
 
 		JButton btnBack = new JButton("Back");
+		// Navigate back.
 		btnBack.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				CardLayout cl = (CardLayout) MainWindow.cards.getLayout();
@@ -230,7 +239,5 @@ public class AddEventDetails extends JPanel {
 		});
 		btnBack.setBounds(255, 514, 89, 23);
 		add(btnBack);
-		// add(table);
-
 	}
 }

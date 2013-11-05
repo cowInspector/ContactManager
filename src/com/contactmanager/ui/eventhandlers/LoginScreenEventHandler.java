@@ -9,17 +9,23 @@ import com.contactmanager.db.DBQueryExecute;
 import com.contactmanager.ui.LoginPanel;
 import com.contactmanager.ui.MainWindow;
 
+/**
+ * @author Yogeshwara Krishnan
+ * 
+ * Event Handler for user login events.
+ *
+ */
 public class LoginScreenEventHandler implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 
+		// Verfiy user name and password.
 		if (e.getSource().toString().contains("Login")) {
 			boolean userExists = DBQueryExecute.checkUserName(
 					LoginPanel.textFieldUsername.getText(),
 					LoginPanel.passwordField.getText());
 			if (userExists) {
-				// LoginScreen.frame.dispose();
 				LoginPanel.textFieldUsername.setText("");
 				LoginPanel.passwordField.setText("");
 				CardLayout cl = (CardLayout) MainWindow.cards.getLayout();
@@ -32,6 +38,7 @@ public class LoginScreenEventHandler implements ActionListener {
 				LoginPanel.passwordField.setText("");
 			}
 		} else if (e.getSource().toString().contains("Create User")) {
+			// Create a new user. Disallow if the user exists.
 			boolean userExists = DBQueryExecute
 					.getUserName(LoginPanel.textFieldNewUserName.getText());
 			if (!userExists) {

@@ -29,6 +29,12 @@ import javax.swing.AbstractListModel;
 
 import java.awt.Component;
 
+/**
+ * @author Yogeshwara Krishnan
+ * 
+ * UI class for Event Search, Manage feature.
+ *
+ */
 public class EventPanel extends JPanel {
 	public static JTextField textFieldEventName;
 	public static JTextField textFieldEventDate;
@@ -36,7 +42,7 @@ public class EventPanel extends JPanel {
 	public static JTable table;
 
 	/**
-	 * Create the panel.
+	 * Create the panel. Initialize UI elements.
 	 */
 	public EventPanel() {
 		setLayout(null);
@@ -79,6 +85,7 @@ public class EventPanel extends JPanel {
 		add(btnSearch);
 		
 		JButton btnClear = new JButton("Clear");
+		// Clear the form.
 		btnClear.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				textFieldEventDate.setText("");
@@ -91,6 +98,7 @@ public class EventPanel extends JPanel {
 		add(btnClear);
 		
 		JButton btnAddEvent = new JButton("Add Event");
+		// Insert the event to the DB.
 		btnAddEvent.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				CardLayout cl = (CardLayout) MainWindow.cards.getLayout();
@@ -111,6 +119,7 @@ public class EventPanel extends JPanel {
 		scrollPane.setBounds(10, 116, 638, 373);
 		add(scrollPane);
 		
+		// Manage the event which was selected on double clicking the table row.
 		table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(final MouseEvent e) {

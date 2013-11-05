@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.contactmanager.ui.eventhandlers;
 
 import java.awt.event.ActionEvent;
@@ -12,16 +9,29 @@ import com.contactmanager.db.DBQueryExecute;
 import com.contactmanager.ui.AddContactPanel;
 
 /**
+ * @author Yogeshwara Krishnan This class has function which handles events from
+ *         AddContactPanel class.
+ */
+/**
  * @author hkrishna
- * 
+ *
  */
 public class AddContactEventHandler implements ActionListener {
 
+	// The user has an option to add multiple phone nos, address, emails at
+	// once. These vectors are used to store the respective data temporarily
+	// until they are committed to the DB.
 	static Vector<Vector<String>> phoneNumberData = new Vector<Vector<String>>();
 	static Vector<Vector<String>> addressDetailsData = new Vector<Vector<String>>();
 	static Vector<Vector<String>> emailDetailsData = new Vector<Vector<String>>();
 	static Vector<String> contactDetailsData = new Vector<String>();
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource().toString().contains("Phone Number")) {
@@ -57,6 +67,9 @@ public class AddContactEventHandler implements ActionListener {
 		}
 	}
 
+	/**
+	 * Bundles the user entered contact data from the screen into a Vector.
+	 */
 	private void bundleContactData() {
 		contactDetailsData.add(AddContactPanel.textFieldPrefix.getText());
 		contactDetailsData.add(AddContactPanel.textFieldFirstName.getText());
@@ -70,6 +83,9 @@ public class AddContactEventHandler implements ActionListener {
 				.getText());
 	}
 
+	/**
+	 * Clear the form.
+	 */
 	private void clearAddContactPanelFields() {
 
 		phoneNumberData.removeAllElements();
@@ -102,17 +118,28 @@ public class AddContactEventHandler implements ActionListener {
 		AddContactPanel.formattedTextFieldDateMet.setText("");
 	}
 
+	/**
+	 * Users have an option to add multiple email ids at one go. This method
+	 * builds a vector and stores all the email ids of the contact to be
+	 * created.
+	 */
 	private void buildEmailDetailVector() {
 		Vector<String> emailRowData = new Vector<String>();
 		emailRowData.add(AddContactPanel.textFieldEmailID.getText());
 		emailRowData.add(AddContactPanel.comboBoxEmailType.getSelectedItem()
 				.toString());
 		emailDetailsData.add(emailRowData);
-		
+
 		AddContactPanel.textFieldEmailID.setText("");
 		AddContactPanel.comboBoxEmailType.setSelectedIndex(0);
 	}
 
+	
+	/**
+	 * Users have an option to add multiple addresses at one go. This method
+	 * builds a vector and stores all the addresses of the contact to be
+	 * created.
+	 */
 	private void buildAddressDetailVector() {
 		Vector<String> addrRowData = new Vector<String>();
 		addrRowData.add(AddContactPanel.textFieldAddrLine1.getText());
@@ -125,7 +152,7 @@ public class AddContactEventHandler implements ActionListener {
 		addrRowData.add(AddContactPanel.comboBoxAddrType.getSelectedItem()
 				.toString());
 		addressDetailsData.add(addrRowData);
-		
+
 		AddContactPanel.textFieldAddrLine1.setText("");
 		AddContactPanel.textFieldAddrLine2.setText("");
 		AddContactPanel.textFieldAddrLine3.setText("");
@@ -136,6 +163,11 @@ public class AddContactEventHandler implements ActionListener {
 		AddContactPanel.comboBoxAddrType.setSelectedIndex(0);
 	}
 
+	/**
+	 * Users have an option to add multiple phone nos. at one go. This method
+	 * builds a vector and stores all the phone nos. of the contact to be
+	 * created.
+	 */
 	private void buildPhoneNumberVector() {
 		Vector<String> phoneDetailsData = new Vector<String>();
 		phoneDetailsData.add(AddContactPanel.textFieldPhNo.getText());
@@ -143,7 +175,7 @@ public class AddContactEventHandler implements ActionListener {
 		phoneDetailsData.add(AddContactPanel.comboBoxPhType.getSelectedItem()
 				.toString());
 		phoneNumberData.add(phoneDetailsData);
-		
+
 		AddContactPanel.textFieldPhNo.setText("");
 		AddContactPanel.textFieldExtension.setText("");
 		AddContactPanel.comboBoxPhType.setSelectedIndex(0);

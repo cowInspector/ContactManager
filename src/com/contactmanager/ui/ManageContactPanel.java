@@ -25,6 +25,13 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Component;
 
+/**
+ * @author Yogeshwara Krishnan
+ * 
+ * UI Class to modify contact details, delete contact and related tables like
+ * Email details, Address details, Phone details.
+ *
+ */
 public class ManageContactPanel extends JPanel {
 	public static JTextField textFieldFirstName;
 	public static JTextField textFieldMiddleName;

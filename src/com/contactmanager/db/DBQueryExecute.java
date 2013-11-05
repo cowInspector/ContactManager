@@ -198,7 +198,7 @@ public class DBQueryExecute {
 
 	/**
 	 * @param contactVector
-	 * @return
+	 * @return adds a new contact and returns no. of rows affected.
 	 * @throws SQLException
 	 */
 	public static int addNewContact(Vector<String> contactVector)
@@ -761,6 +761,11 @@ public class DBQueryExecute {
 		return result;
 	}
 
+	/**
+	 * @param creatorID
+	 * @return Contacts of the user as a table model.
+	 * @throws SQLException
+	 */
 	public static DefaultTableModel getAllContactsForUser(String creatorID)
 			throws SQLException {
 		Connection conn = DBUtilFactory.getConnection();
@@ -795,6 +800,11 @@ public class DBQueryExecute {
 		};
 	}
 
+	/**
+	 * @param participantID
+	 * @return Associates a contact with an event and returns no. of rows affected.
+	 * @throws SQLException
+	 */
 	public static int addIndividualEventParticipant(String participantID)
 			throws SQLException {
 		Connection conn = DBUtilFactory.getConnection();
@@ -818,6 +828,11 @@ public class DBQueryExecute {
 		return result;
 	}
 
+	/**
+	 * @param eventID
+	 * @return name of the contact who is participating in the specified event.
+	 * @throws SQLException
+	 */
 	public static String getEventParticipant(String eventID) throws SQLException {
 		Connection conn = DBUtilFactory.getConnection();
 		Statement stmt = conn.createStatement();

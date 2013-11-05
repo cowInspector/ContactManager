@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.contactmanager.ui.eventhandlers;
 
 import java.awt.event.ActionEvent;
@@ -14,11 +11,18 @@ import com.contactmanager.db.DBQueryExecute;
 import com.contactmanager.ui.AddEventDetails;
 
 /**
- * @author hkrishna
+ * @author Yogeshwara Krishnan
+ * 
+ *         Event Handler class for AddEventDetails class.
  * 
  */
 public class AddEventEventHandler implements ActionListener {
 
+	/**
+	 * @param creatorID
+	 *            A contact is associated with a person. This method populates
+	 *            the table with all the contacts of the user.
+	 */
 	public static void populateContact(String creatorID) {
 		try {
 			AddEventDetails.tableContacts.setModel(DBQueryExecute

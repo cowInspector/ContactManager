@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.contactmanager.ui.eventhandlers;
 
 import java.awt.event.ActionEvent;
@@ -14,11 +11,17 @@ import com.contactmanager.db.DBQueryExecute;
 import com.contactmanager.ui.ContactSearchPanel;
 
 /**
- * @author hkrishna
+ * @author Yogeshwara Krishnan
+ * 
+ * Event Handler class for ContactSearchPanel class.
+ * Calls required DB level function to retrieve the search results.
  * 
  */
 public class ContactSearchEventHandlers implements ActionListener {
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 

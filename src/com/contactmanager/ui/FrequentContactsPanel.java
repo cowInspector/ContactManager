@@ -14,6 +14,12 @@ import javax.swing.border.TitledBorder;
 
 import com.contactmanager.db.DBQueryExecute;
 
+/**
+ * @author Yogeshwara Krishnan
+ * 
+ * THIS CLASS IS USED NOWHERE. DON'T BOTHER YOURSELVES.
+ *
+ */
 public class FrequentContactsPanel extends JPanel {
 	private JTable table;
 	private JTextField textFieldPhNo;
