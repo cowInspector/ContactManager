@@ -954,6 +954,7 @@ public class DBQueryExecute {
 
 	/**
 	 * Adds new email from the ManageContact screen.
+	 * 
 	 * @param row
 	 * @throws SQLException
 	 */
@@ -974,6 +975,7 @@ public class DBQueryExecute {
 
 	/**
 	 * This method updates the email details from the ManageContact screen.
+	 * 
 	 * @param row
 	 * @throws SQLException
 	 */
@@ -987,8 +989,69 @@ public class DBQueryExecute {
 				+ row.get(2).toString() + "' where emaildetailsid = "
 				+ row.get(0).toString() + " and contactid = "
 				+ System.getProperty("currentContactID");
-		
+
 		stmt.executeUpdate(updateEmailDetailsSQL);
+
+		conn.close();
+	}
+
+	/**
+	 * @param phoneDetailsID
+	 * @throws SQLException
+	 * 
+	 * Method to delete phone details of the contact being currently modified. 
+	 */
+	public static void deletePhoneDetails(String phoneDetailsID)
+			throws SQLException {
+		Connection conn = DBUtilFactory.getConnection();
+		Statement stmt = conn.createStatement();
+
+		String deletePhoneDetailsSQL = "Delete from phonedetails where phonedetailsid = "
+				+ phoneDetailsID
+				+ " and contactid = "
+				+ System.getProperty("currentContactID");
+
+		stmt.executeUpdate(deletePhoneDetailsSQL);
+
+		conn.close();
+	}
+
+	/**
+	 * @param selectedEmailDetailID
+	 * @throws SQLException
+	 * Method to delete email details of the contact being currently modified.
+	 */
+	public static void deleteEmailDetails(String selectedEmailDetailID)
+			throws SQLException {
+		Connection conn = DBUtilFactory.getConnection();
+		Statement stmt = conn.createStatement();
+
+		String deleteEmailDetailSQL = "delete from emaildetails where emaildetailsid = "
+				+ selectedEmailDetailID
+				+ " and contactid = "
+				+ System.getProperty("currentContactID");
+
+		stmt.executeUpdate(deleteEmailDetailSQL);
+
+		conn.close();
+	}
+
+	/**
+	 * @param selectedAddrDetailID
+	 * @throws SQLException
+	 * Method to delete address details of the contact being currently modified.
+	 */
+	public static void deleteAddressDetails(String selectedAddrDetailID)
+			throws SQLException {
+		Connection conn = DBUtilFactory.getConnection();
+		Statement stmt = conn.createStatement();
+
+		String deleteAddrDetailSQL = "delete from addressdetails where addressdetailsid = "
+				+ selectedAddrDetailID
+				+ " and contactid = "
+				+ System.getProperty("currentContactID");
+		
+		stmt.executeUpdate(deleteAddrDetailSQL);
 		
 		conn.close();
 	}

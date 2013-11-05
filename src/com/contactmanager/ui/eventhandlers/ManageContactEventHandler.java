@@ -246,4 +246,47 @@ public class ManageContactEventHandler implements ActionListener {
 		}
 	}
 
+	/**
+	 * @param phoneDetailsID
+	 * 
+	 * This method deletes phone detail of the selected row from the DB.
+	 */
+	public static void deletePhoneDetail(String phoneDetailsID) {
+		if (phoneDetailsID.length() > 0) {
+			try {
+				DBQueryExecute.deletePhoneDetails(phoneDetailsID);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	/**
+	 * @param selectedEmailDetailID
+	 * This method deletes email detail of the selected row from the DB.
+	 */
+	public static void deleteEmailDetail(String selectedEmailDetailID) {
+		if (selectedEmailDetailID.length() > 0) {
+			try {
+				DBQueryExecute.deleteEmailDetails(selectedEmailDetailID);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	/**
+	 * @param selectedAddrDetailID
+	 * This method deletes phone detail of the selected row from the DB.
+	 */
+	public static void deleteAddressDetail(String selectedAddrDetailID) {
+		if (selectedAddrDetailID.length() > 0) {
+			try {
+				DBQueryExecute.deleteAddressDetails(selectedAddrDetailID);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
 }
