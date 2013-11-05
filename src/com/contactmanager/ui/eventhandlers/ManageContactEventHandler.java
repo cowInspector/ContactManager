@@ -145,6 +145,8 @@ public class ManageContactEventHandler implements ActionListener {
 					ManageContactPanel.lblStatusMessage
 							.setText("Contact Updated");
 					renderAddrModel();
+					renderPhoneModel();
+					renderEmailModel();
 				}
 			} catch (SQLException e1) {
 				e1.printStackTrace();
@@ -169,8 +171,57 @@ public class ManageContactEventHandler implements ActionListener {
 		}
 	}
 
+	private void renderEmailModel() {
+		DefaultTableModel model = (DefaultTableModel) ManageContactPanel.tableEmailDetails
+				.getModel();
+		Vector<Vector<Object>> data = model.getDataVector();
+		
+		for (int i = 0; i < data.size(); i++) {
+			Vector<Object> row = data.elementAt(i);
+			if (row.elementAt(0).toString().length() == 0) {
+				try {
+					DBQueryExecute.addNewEmailDetails(row);
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			} else {
+				try {
+					DBQueryExecute.updateEmailDetails(row);
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+
 	/**
-	 * This function determines which rows in the address table must be updated or added.
+	 * This function determines which rows in the phone table in the UI must be updated or added.
+	 */
+	private void renderPhoneModel() {
+		DefaultTableModel model = (DefaultTableModel) ManageContactPanel.tablePhoneDetails
+				.getModel();
+		Vector<Vector<Object>> data = model.getDataVector();
+		
+		for (int i = 0; i < data.size(); i++) {
+			Vector<Object> row = data.elementAt(i);
+			if (row.elementAt(0).toString().length() == 0) {
+				try {
+					DBQueryExecute.addNewPhoneDetails(row);
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			} else {
+				try {
+					DBQueryExecute.updatePhoneDetails(row);
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+
+	/**
+	 * This function determines which rows in the address table in the UI must be updated or added.
 	 */
 	public static void renderAddrModel() {
 		DefaultTableModel model = (DefaultTableModel) ManageContactPanel.tableAddrDetails
@@ -179,12 +230,19 @@ public class ManageContactEventHandler implements ActionListener {
 
 		for (int i = 0; i < data.size(); i++) {
 			Vector<Object> row = data.elementAt(i);
-			if (row.elementAt(0).toString().length() == 0)
+			if (row.elementAt(0).toString().length() == 0) {
 				try {
 					DBQueryExecute.addNewAddressDetails(row);
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
+			} else {
+				try {
+					DBQueryExecute.updateAddressDetails(row);
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
 		}
 	}
 

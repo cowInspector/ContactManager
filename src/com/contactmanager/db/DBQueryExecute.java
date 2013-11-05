@@ -168,12 +168,11 @@ public class DBQueryExecute {
 		Connection conn = DBUtilFactory.getConnection();
 		Statement stmt = conn.createStatement();
 		ResultSet rs = stmt
-				.executeQuery("SELECT phonedetailsID, phonenumber, extension, phonetype from phonedetails where contactID = "
+				.executeQuery("SELECT phonedetailsID, phonenumber, phonetype from phonedetails where contactID = "
 						+ contactID);
 		Vector<String> columnNames = new Vector<String>();
 		columnNames.add("Phone Details ID");
 		columnNames.add("Phone No.");
-		columnNames.add("Extension");
 		columnNames.add("Phone Type");
 		Vector<Vector<Object>> data = new Vector<Vector<Object>>();
 		while (rs.next()) {
@@ -181,7 +180,6 @@ public class DBQueryExecute {
 			row.add(rs.getString(1));
 			row.add(rs.getString(2));
 			row.add(rs.getString(3));
-			row.add(rs.getString(4));
 			data.add(row);
 		}
 
@@ -731,13 +729,18 @@ public class DBQueryExecute {
 		return result;
 	}
 
+	/**
+	 * @param row
+	 * @return inserts new address details from Manage Contact screen.
+	 * @throws SQLException
+	 */
 	public static int addNewAddressDetails(Vector<Object> row)
 			throws SQLException {
 		Connection conn = DBUtilFactory.getConnection();
 		Statement stmt = conn.createStatement();
 
 		String insertNewAddrSQL = "INSERT INTO ADDRESSDETAILS (CONTACTID, AddressLine1, AddressLine2, AddressLine3, City, "
-				+ "State, PostalCode, Country, AddressType, crea) values ("
+				+ "State, PostalCode, Country, AddressType) values ("
 				+ System.getProperty("currentContactID")
 				+ ", '"
 				+ row.elementAt(1).toString()
@@ -802,7 +805,8 @@ public class DBQueryExecute {
 
 	/**
 	 * @param participantID
-	 * @return Associates a contact with an event and returns no. of rows affected.
+	 * @return Associates a contact with an event and returns no. of rows
+	 *         affected.
 	 * @throws SQLException
 	 */
 	public static int addIndividualEventParticipant(String participantID)
@@ -833,22 +837,159 @@ public class DBQueryExecute {
 	 * @return name of the contact who is participating in the specified event.
 	 * @throws SQLException
 	 */
-	public static String getEventParticipant(String eventID) throws SQLException {
+	public static String getEventParticipant(String eventID)
+			throws SQLException {
 		Connection conn = DBUtilFactory.getConnection();
 		Statement stmt = conn.createStatement();
-		
+
 		String participant = "";
-		
+
 		String getParticipantSQL = "select firstname, lastname from contacts where "
 				+ "contactid in (select contactid from individualeventparticipants where eventid = "
-				+ eventID +")";
-		
+				+ eventID + ")";
+
 		ResultSet rs = stmt.executeQuery(getParticipantSQL);
-		
+
 		while (rs.next()) {
-			participant = rs.getString("firstname") + " " + rs.getString("lastname");
+			participant = rs.getString("firstname") + " "
+					+ rs.getString("lastname");
 		}
-		
+
 		return participant;
+	}
+
+	/**
+	 * @param participantID
+	 * @param eventID
+	 * @return updates the event participants table and returns the no. of rows
+	 *         affected.
+	 * @throws SQLException
+	 */
+	public static int updateParticipantDetails(String participantID,
+			String eventID) throws SQLException {
+		Connection conn = DBUtilFactory.getConnection();
+		Statement stmt = conn.createStatement();
+
+		String updateEventParticipant = "update individualeventparticipants set contactID = "
+				+ participantID + " where eventID = " + eventID;
+
+		int result = stmt.executeUpdate(updateEventParticipant);
+
+		conn.close();
+		return result;
+	}
+
+	/**
+	 * @param row
+	 * @return updates the address details from the table model. returns the no.
+	 *         of rows affected.
+	 * @throws SQLException
+	 */
+	public static int updateAddressDetails(Vector<Object> row)
+			throws SQLException {
+		Connection conn = DBUtilFactory.getConnection();
+		Statement stmt = conn.createStatement();
+
+		String updateAddressSQL = "UPDATE ADDRESSDETAILS set AddressLine1 = '"
+				+ row.get(1).toString() + "', AddressLine2 = '"
+				+ row.get(2).toString() + "', AddressLine3 = '"
+				+ row.get(3).toString() + "', City = '" + row.get(4).toString()
+				+ "', State = '" + row.get(5).toString() + "', PostalCode = '"
+				+ row.get(6).toString() + "', Country = '"
+				+ row.get(7).toString() + "', AddressType = '"
+				+ row.get(8).toString() + "' where addressdetailsID = "
+				+ row.get(0).toString();
+
+		int result = stmt.executeUpdate(updateAddressSQL);
+		conn.close();
+		return result;
+	}
+
+	/**
+	 * This method inserts new phone details of the contact being currently
+	 * managed.
+	 * 
+	 * @param row
+	 * @throws SQLException
+	 */
+	public static void addNewPhoneDetails(Vector<Object> row)
+			throws SQLException {
+		Connection conn = DBUtilFactory.getConnection();
+		Statement stmt = conn.createStatement();
+
+		String insertNewPhoneDetSQL = "INSERT INTO PHONEDETAILS (CONTACTID, PHONENUMBER, PHONETYPE) values ("
+				+ System.getProperty("currentContactID")
+				+ ", '"
+				+ row.get(1).toString() + "', '" + row.get(2).toString() + "')";
+
+		stmt.executeUpdate(insertNewPhoneDetSQL);
+
+		conn.close();
+	}
+
+	/**
+	 * Updates the phone details of the contacts being managed.
+	 * 
+	 * @param row
+	 * @throws SQLException
+	 */
+	public static void updatePhoneDetails(Vector<Object> row)
+			throws SQLException {
+		Connection conn = DBUtilFactory.getConnection();
+		Statement stmt = conn.createStatement();
+
+		String updatePhoneDetailsSQL = "update phonedetails set phonenumber = '"
+				+ row.get(1).toString()
+				+ "', phonetype = '"
+				+ row.get(2).toString()
+				+ "' where phonedetailsid = "
+				+ row.get(0).toString()
+				+ " and contactid = "
+				+ System.getProperty("currentContactID");
+
+		stmt.executeUpdate(updatePhoneDetailsSQL);
+
+		conn.close();
+	}
+
+	/**
+	 * Adds new email from the ManageContact screen.
+	 * @param row
+	 * @throws SQLException
+	 */
+	public static void addNewEmailDetails(Vector<Object> row)
+			throws SQLException {
+		Connection conn = DBUtilFactory.getConnection();
+		Statement stmt = conn.createStatement();
+
+		String addEmailSQL = "INSERT INTO EMAILDETAILS (CONTACTID, EmailID, EmailType) values ("
+				+ System.getProperty("currentContactID")
+				+ ", '"
+				+ row.get(1).toString() + "', '" + row.get(2).toString() + "')";
+
+		stmt.executeUpdate(addEmailSQL);
+
+		conn.close();
+	}
+
+	/**
+	 * This method updates the email details from the ManageContact screen.
+	 * @param row
+	 * @throws SQLException
+	 */
+	public static void updateEmailDetails(Vector<Object> row)
+			throws SQLException {
+		Connection conn = DBUtilFactory.getConnection();
+		Statement stmt = conn.createStatement();
+
+		String updateEmailDetailsSQL = "update emaildetails set emailid = '"
+				+ row.get(1).toString() + "', emailtype = '"
+				+ row.get(2).toString() + "' where emaildetailsid = "
+				+ row.get(0).toString() + " and contactid = "
+				+ System.getProperty("currentContactID");
+		
+		stmt.executeUpdate(updateEmailDetailsSQL);
+		
+		conn.close();
 	}
 }

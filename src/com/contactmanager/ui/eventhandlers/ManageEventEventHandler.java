@@ -10,24 +10,29 @@ import java.sql.SQLException;
 import java.util.Vector;
 
 import com.contactmanager.db.DBQueryExecute;
+import com.contactmanager.ui.AddEventDetails;
 import com.contactmanager.ui.MainWindow;
 import com.contactmanager.ui.ManageContactPanel;
 import com.contactmanager.ui.ManageEventPanel;
 
 /**
- * @author Yogeshwara Krishnan
- * 
+ * @author Yogeshwara Krishnan 
+ * Event Handler for ManageEventPanel class. Calls
+ *         appropriate DB level methods to modify or delete events.
  */
 public class ManageEventEventHandler implements ActionListener {
 
 	/**
 	 * @param eventID
-	 * Gets the relevant data to populate the fields of ManageEventPanel screen on load.
+	 *            Gets the relevant data to populate the fields of
+	 *            ManageEventPanel screen on load.
 	 */
 	public static void getEventDetailsData(String eventID) {
 		try {
 			populateUI(DBQueryExecute.getEventDetails(eventID));
-			ManageEventPanel.textFieldParticipant.setText(DBQueryExecute.getEventParticipant(eventID));
+			ManageEventPanel.textFieldParticipant.setText(DBQueryExecute
+					.getEventParticipant(eventID));
+			populateContact(System.getProperty("creatorID"));
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -35,7 +40,7 @@ public class ManageEventEventHandler implements ActionListener {
 
 	/**
 	 * @param eventDetails
-	 * Populates the fields of ManageEventPanel screen on load.
+	 *            Populates the fields of ManageEventPanel screen on load.
 	 */
 	private static void populateUI(Vector<Object> eventDetails) {
 		ManageEventPanel.textFieldEventName
@@ -74,7 +79,7 @@ public class ManageEventEventHandler implements ActionListener {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		//Delete the event.
+		// Delete the event.
 		if (e.getSource().toString().contains("Delete")) {
 			try {
 				if (DBQueryExecute.deleteEvent(System
@@ -87,11 +92,14 @@ public class ManageEventEventHandler implements ActionListener {
 			}
 		}
 
-		//Update the changes made to the event. 
+		// Update the changes made to the event.
 		if (e.getSource().toString().contains("Save")) {
 			try {
 				if (DBQueryExecute.updateEventDetails(System
-							.getProperty("currentEventID")) > 0) {
+						.getProperty("currentEventID")) > 0) {
+					DBQueryExecute.updateParticipantDetails(System
+							.getProperty("participantID"), System
+							.getProperty("currentEventID"));
 					CardLayout cl = (CardLayout) MainWindow.cards.getLayout();
 					cl.show(MainWindow.cards, "Contact");
 				}
@@ -101,4 +109,20 @@ public class ManageEventEventHandler implements ActionListener {
 		}
 	}
 
+	/**
+	 * @param creatorID
+	 *            A contact is associated with a person. This method populates
+	 *            the table with all the contacts of the user.
+	 */
+	public static void populateContact(String creatorID) {
+		try {
+			ManageEventPanel.tableContact.setModel(DBQueryExecute
+					.getAllContactsForUser(creatorID));
+			ManageEventPanel.tableContact
+					.removeColumn(ManageEventPanel.tableContact
+							.getColumnModel().getColumn(0));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 }

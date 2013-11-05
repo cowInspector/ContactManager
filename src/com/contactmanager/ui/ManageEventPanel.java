@@ -18,9 +18,14 @@ import com.contactmanager.ui.eventhandlers.ManageEventEventHandler;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JScrollPane;
+
 import java.awt.Component;
+
 import javax.swing.JTable;
 
 /**
@@ -185,6 +190,30 @@ public class ManageEventPanel extends JPanel {
 		tableContact = new JTable();
 		scrollPaneContact.setColumnHeaderView(tableContact);
 
+		tableContact.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if (e.getClickCount() == 2) {
+					final JTable target = (JTable) e.getSource();
+					final int row = target.getSelectedRow();
+					System.setProperty(
+							"participantID",
+							tableContact
+									.getModel()
+									.getValueAt(
+											tableContact
+													.convertRowIndexToModel(row),
+											0).toString());
+					
+					textFieldParticipant.setText(tableContact
+							.getModel()
+							.getValueAt(
+									tableContact
+											.convertRowIndexToModel(row),
+									1).toString());
+				}
+			}
+		});
 	}
 
 }

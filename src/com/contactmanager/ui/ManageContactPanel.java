@@ -157,7 +157,7 @@ public class ManageContactPanel extends JPanel {
 		btnAddPhoneNumber.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				DefaultTableModel model = (DefaultTableModel) tablePhoneDetails.getModel();
-				model.addRow(new Object[]{"","","",""});
+				model.addRow(new Object[]{"","",""});
 			}
 		});
 		btnAddPhoneNumber.setBounds(10, 295, 136, 23);
